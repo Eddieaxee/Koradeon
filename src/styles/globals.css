@@ -493,3 +493,43 @@
     color: black;
   }
 }
+
+/* =============================================
+===   DARK MODE   ====
+   ============================================ */
+/* Semantic dark-mode overrides — next-themes adds .dark to <html> */
+html.dark body {
+  background-color: #141210;
+  color: #E4DCD2;
+}
+html.dark ::selection {
+  background-color: #B8A47E;
+  color: #FDF9F3;
+}
+html.dark .bg-ivory-50 { background-color: #141210; }
+html.dark .bg-ivory-100 { background-color: #1A1715; }
+html.dark .bg-ivory-50\/95 { background-color: rgba(20, 18, 16, 0.95); }
+html.dark .bg-white { background-color: #171513; }
+html.dark .bg-white\/50 { background-color: rgba(23, 21, 19, 0.5); }
+html.dark .bg-stone-50 { background-color: #1A1715; }
+html.dark .bg-stone-100 { background-color: #1E1B19; }
+html.dark .bg-stone-200 { background-color: #262220; }
+html.dark .bg-stone-900 { background-color: #161412; }
+html.dark .border-stone-200 { border-color: #2B2724; }
+html.dark .border-stone-300 { border-color: #3D352E; }
+html.dark .border-stone-900 { border-color: #B8A99A; }
+html.dark .text-stone-900 { color: #F0EBE4; }
+html.dark .text-stone-800 { color: #E4DCD2; }
+html.dark .text-stone-700 { color: #D4C9BB; }
+html.dark .text-stone-600 { color: #B8A99A; }
+html.dark .text-stone-500 { color: #A59D91; }
+html.dark .text-stone-400 { color: #9C8B7A; }
+html.dark .text-champagne-600 { color: #C9B58E; }
+html.dark .architectural-grid {
+  background-image:
+    linear-gradient(rgba(240, 235, 228, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 235, 228, 0.04) 1px, transparent 1px);
+}
+html.dark *::-webkit-scrollbar-track { background: #141210; }
+html.dark *::-webkit-scrollbar-thumb { background: #3D352E; }
+html.dark *::-webkit-scrollbar-thumb:hover { background: #5D5046; }

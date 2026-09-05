@@ -7,7 +7,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAVIGATION, COMPANY_INFO } from '@/constants/brand'
 import { useUI } from '@/contexts/UIProvider'
-
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { Logo } from '@/components/Logo'
 const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: <Linkedin className="w-4 h-4" />,
   Instagram: <Instagram className="w-4 h-4" />,
@@ -49,12 +50,7 @@ export function Navigation() {
             <Link href="/" className="relative group" aria-label="KÓRADEON GROUP Home">
               <div className="flex items-center space-x-3">
                 <div className="relative w-10 h-10 lg:w-12 lg:h-12">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    <rect x="2" y="2" width="18" height="18" fill="currentColor" className="text-stone-900"/>
-                    <rect x="28" y="2" width="18" height="18" fill="currentColor" className="text-stone-900"/>
-                    <rect x="2" y="28" width="18" height="18" fill="currentColor" className="text-stone-900"/>
-                    <circle cx="38" cy="38" r="8" fill="currentColor" className="text-champagne-500"/>
-                  </svg>
+<Logo className="w-full h-full" animated />
                 </div>
                 <div className="hidden sm:block">
                   <div className="text-lg lg:text-xl font-serif tracking-tight text-stone-900">
@@ -68,7 +64,7 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
+            <div className="hidden xl:flex items-center space-x-1">
               {NAVIGATION.map((item) => (
                 <Link
                   key={item.name}
@@ -93,25 +89,10 @@ export function Navigation() {
 
             {/* Right side actions */}
             <div className="flex items-center space-x-4">
-              {/* Social Links - Desktop */}
-              <div className="hidden lg:flex items-center space-x-3">
-                {Object.entries(COMPANY_INFO.social).map(([platform, url]) => (
-                  <a
-                    key={platform}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-stone-600 hover:text-champagne-600 transition-colors duration-300"
-                    aria-label={platform}
-                  >
-                    {socialIcons[platform.charAt(0).toUpperCase() + platform.slice(1)] || socialIcons[platform]}
-                  </a>
-                ))}
-              </div>
 
               <button
                 onClick={openSearch}
-                className="hidden lg:flex items-center space-x-2 px-4 py-2 text-sm text-stone-600 bg-stone-100/50 rounded-full hover:bg-stone-100 transition-colors duration-300"
+                className="hidden xl:flex items-center space-x-2 px-4 py-2 text-sm text-stone-600 bg-stone-100/60 rounded-full hover:bg-stone-100 transition-colors duration-300"
                 aria-label="Open search (Ctrl+K)"
               >
                 <Search className="w-4 h-4" />
@@ -121,10 +102,14 @@ export function Navigation() {
                 </kbd>
               </button>
 
+              <div className="hidden xl:block">
+                <ThemeToggle />
+              </div>
+
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 text-stone-900 hover:text-stone-700 transition-colors"
+                className="xl:hidden p-2 text-stone-900 hover:text-stone-700 transition-colors"
                 aria-label="Toggle menu"
                 aria-expanded={isMobileMenuOpen}
               >
@@ -147,7 +132,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 z-40 bg-ivory-50 pt-24 pb-8 px-6 lg:hidden"
+            className="fixed inset-0 z-40 bg-ivory-50 pt-24 pb-8 px-6 xl:hidden overflow-y-auto max-h-screen"
           >
             <nav className="flex flex-col space-y-1" aria-label="Mobile navigation">
               {NAVIGATION.map((item, index) => (
@@ -171,6 +156,11 @@ export function Navigation() {
               ))}
             </nav>
 
+            <div className="mt-8 pt-8 border-t border-stone-200 flex items-center justify-between">
+              <span className="text-sm text-stone-600">Theme</span>
+              <ThemeToggle className="!border-stone-300" />
+            </div>
+
             {/* Social Links - Mobile */}
             <div className="mt-8 pt-8 border-t border-stone-200">
               <div className="flex items-center justify-center space-x-6">
@@ -180,7 +170,7 @@ export function Navigation() {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-stone-600 hover:text-champagne-600 transition-colors duration-300"
+                    className="text-stone-600 hover:text-champagne-700 transition-colors duration-300"
                     aria-label={platform}
                   >
                     {socialIcons[platform.charAt(0).toUpperCase() + platform.slice(1)] || socialIcons[platform]}
@@ -192,7 +182,7 @@ export function Navigation() {
             <div className="mt-8 pt-8 border-t border-stone-200">
               <button
                 onClick={openSearch}
-                className="flex items-center space-x-3 w-full px-4 py-3 text-stone-600 bg-stone-100/50 rounded-lg"
+                className="flex items-center space-x-3 w-full px-4 py-3 text-stone-600 bg-stone-100/60 rounded-lg"
               >
                 <Search className="w-5 h-5" />
                 <span className="text-base">Search</span>

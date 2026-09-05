@@ -1,0 +1,29 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#39541F"/>
+      <stop offset="55%" stop-color="#2A3D15"/>
+      <stop offset="100%" stop-color="#1B280C"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E2CE9E"/>
+      <stop offset="100%" stop-color="#B59B73"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g stroke="#E2CE9E" stroke-opacity="0.12">
+    <line x1="0" y1="225" x2="1600" y2="225"/>
+    <line x1="0" y1="450" x2="1600" y2="450"/>
+    <line x1="0" y1="675" x2="1600" y2="675"/>
+  </g>
+  <path d="M0 720 C 400 560, 700 840, 1600 560" stroke="#6B7B3E" stroke-width="10" fill="none" stroke-opacity="0.7"/>
+  <path d="M0 780 C 500 640, 900 900, 1600 660" stroke="#7D8B4E" stroke-width="6" fill="none" stroke-opacity="0.5"/>
+  <circle cx="300" cy="300" r="140" fill="#E2CE9E" fill-opacity="0.12"/>
+  <circle cx="300" cy="300" r="96" fill="#E2CE9E" fill-opacity="0.12"/>
+  <circle cx="300" cy="300" r="52" fill="#E2CE9E" fill-opacity="0.16"/>
+  <path d="M1240 240 C 1360 300, 1360 520, 1240 600" stroke="url(#gold)" stroke-width="6" fill="none"/>
+  <path d="M1300 260 C 1410 320, 1410 500, 1300 580" stroke="url(#gold)" stroke-width="3" fill="none" stroke-opacity="0.6"/>
+  <text x="80" y="824" font-family="Georgia, serif" font-size="40" letter-spacing="4" fill="#C9B58E">KAVORA FARMS — INNOVATION</text>
+  <rect x="80" y="848" width="420" height="2" fill="url(#gold)"/>
+  <text x="420" y="120" font-family="Georgia, serif" font-size="60" fill="#E2CE9E" fill-opacity="0.8">Precision Agriculture</text>
+</svg>

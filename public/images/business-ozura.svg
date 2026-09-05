@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Still ocean horizon at dusk with warm light — abstract resort scene">
+  <defs>
+    <linearGradient id="ozSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FDFBF4"/>
+      <stop offset="48%" stop-color="#F2E3C8"/>
+      <stop offset="62%" stop-color="#E4C08A"/>
+    </linearGradient>
+    <linearGradient id="ozSea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9FBFCB"/>
+      <stop offset="30%" stop-color="#5E8FA0"/>
+      <stop offset="100%" stop-color="#274B5E"/>
+    </linearGradient>
+    <linearGradient id="ozGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+    </linearGradient>
+    <radialGradient id="ozSun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F0D9A0"/>
+      <stop offset="100%" stop-color="#E0B268" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="560" fill="url(#ozSky)"/>
+  <rect y="560" width="1600" height="440" fill="url(#ozSea)"/>
+  <circle cx="800" cy="545" r="200" fill="url(#ozSun)"/>
+  <circle cx="800" cy="548" r="74" fill="#EFCF92"/>
+
+  <rect x="1050" y="240" width="90" height="330" fill="url(#ozGlass)" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="2"/>
+  <rect x="1180" y="300" width="64" height="270" fill="url(#ozGlass)" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="2"/>
+
+  <g stroke="#F6E7C6" stroke-width="3" opacity="0.6" stroke-linecap="round">
+    <path d="M120 640 C 320 628 520 652 720 640" fill="none"/>
+    <path d="M880 700 C 1080 688 1280 712 1480 700" fill="none"/>
+    <path d="M300 770 C 500 758 700 782 900 770" fill="none"/>
+    <path d="M1040 850 C 1240 838 1440 862 1600 850" fill="none"/>
+    <path d="M0 910 C 200 898 400 922 600 910" fill="none"/>
+  </g>
+
+  <rect x="760" y="580" width="80" height="360" fill="#E9C88E" opacity="0.35"/>
+</svg>

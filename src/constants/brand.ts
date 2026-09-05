@@ -63,8 +63,8 @@ export const BUSINESSES: Business[] = [
     sectors: ['Luxury Residential', 'Commercial Development', 'Urban Communities', 'Mixed-use Developments'],
     mission: 'To develop premium properties and sustainable communities that redefine modern living in Africa\'s major cities.',
     vision: 'To become Africa\'s most respected real estate development company, creating iconic properties and communities that stand the test of time.',
-    status: 'launching-soon',
-    websiteUrl: 'https://rumara.com'
+    status: 'active',
+    websiteUrl: 'https://realty-x.vercel.app'
   },
   {
     id: 'arcovia',

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -80,6 +82,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </SmoothScroll>
           </UIProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

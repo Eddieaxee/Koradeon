@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 
 
@@ -17,7 +18,8 @@ const businesses = [
     sectors: ['Commercial Agriculture', 'Food Production', 'Agri-Technology', 'Sustainability'],
     mission: 'To revolutionize African agriculture through technology and sustainable practices, ensuring food security for generations to come.',
     vision: 'To become Africa\'s leading integrated agribusiness, transforming the continent\'s agricultural landscape while creating sustainable livelihoods.',
-    status: 'Launching Soon'
+    status: 'Launching Soon',
+    image: '/images/business-kavora.svg'
   },
   {
     id: 'ozura',
@@ -29,7 +31,8 @@ const businesses = [
     sectors: ['Luxury Resorts', 'Wellness Retreats', 'Tourism', 'Destination Development'],
     mission: 'To create extraordinary hospitality experiences that celebrate Africa\'s natural beauty while promoting sustainable tourism.',
     vision: 'To establish Africa\'s most prestigious hospitality brand, offering world-class experiences that showcase the continent\'s unique beauty and culture.',
-    status: 'Launching Soon'
+    status: 'Launching Soon',
+    image: '/images/business-ozura.svg'
   },
   {
     id: 'rumara',
@@ -41,7 +44,9 @@ const businesses = [
     sectors: ['Luxury Residential', 'Commercial Development', 'Urban Communities', 'Mixed-use Developments'],
     mission: 'To develop premium properties and sustainable communities that redefine modern living in Africa\'s major cities.',
     vision: 'To become Africa\'s most respected real estate development company, creating iconic properties and communities that stand the test of time.',
-    status: 'Launching Soon'
+    status: 'Visit Website',
+    website: 'https://realty-x.vercel.app',
+    image: '/images/business-rumara.svg'
   },
   {
     id: 'arcovia',
@@ -53,7 +58,8 @@ const businesses = [
     sectors: ['Construction', 'Engineering', 'Transportation', 'Smart Infrastructure'],
     mission: 'To build critical infrastructure that powers Africa\'s growth, using innovative engineering and sustainable practices.',
     vision: 'To be the leading infrastructure development company in Africa, building the foundations for the continent\'s economic transformation.',
-    status: 'Launching Soon'
+    status: 'Launching Soon',
+    image: '/images/business-arcovia.svg'
   }
 ]
 
@@ -174,20 +180,29 @@ export default function BusinessesPage() {
 
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <button
-                        disabled
-                        className={`inline-flex items-center justify-center px-8 py-4 ${colors.button} text-ivory-50 font-medium tracking-wide rounded-lg opacity-50 cursor-not-allowed`}
-                      >
-                        <ExternalLink className="w-5 h-5 mr-2" />
-                        {business.status}
-                      </button>
-                      <Link
-                        href={`/businesses#${business.id}`}
-                        className={`inline-flex items-center justify-center px-8 py-4 border-2 ${colors.border} ${colors.text} font-medium tracking-wide rounded-lg transition-all duration-300 ${colors.hover}`}
-                      >
+                      {business.website ? (
+                        <a
+                          href={business.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center justify-center px-8 py-4 ${colors.button} text-ivory-50 font-medium tracking-wide rounded-lg transition-all duration-300 hover:shadow-soft`}>
+                          <ExternalLink className="w-5 h-5 mr-2" />
+                          {business.status}
+                        </a>
+                      ) : (
+                        <button
+                          disabled
+                          className={`inline-flex items-center justify-center px-8 py-4 ${colors.button} text-ivory-50 font-medium tracking-wide rounded-lg opacity-50 cursor-not-allowed`}>
+                          <ExternalLink className="w-5 h-5 mr-2" />
+                          {business.status}
+                        </button>
+                      )}
+                      <a
+                        href={`#${business.id}`}
+                        className={`inline-flex items-center justify-center px-8 py-4 border-2 ${colors.border} ${colors.text} font-medium tracking-wide rounded-lg transition-all duration-300 ${colors.hover}`}>
                         Learn More
                         <ArrowRight className="w-5 h-5 ml-2" />
-                      </Link>
+                      </a>
                     </div>
                   </motion.div>
 
@@ -200,11 +215,8 @@ export default function BusinessesPage() {
                     className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}
                   >
                     <div className={`aspect-square bg-gradient-to-br ${colors.bg} rounded-3xl overflow-hidden relative`}>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className={`w-32 h-32 bg-white/50 backdrop-blur-sm rounded-3xl flex items-center justify-center`}>
-                          <span className={`text-7xl font-serif ${colors.text}`}>{business.icon}</span>
-                        </div>
-                      </div>
+                      <Image src={business.image} alt={`${business.name} — ${business.tagline}`} fill unoptimized sizes="(max-width: 640px) 100vw, 560px" className="object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent" aria-hidden="true" />
                     </div>
                   </motion.div>
                 </div>

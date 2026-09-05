@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ArrowUpRight, Mail, Phone, MapPin, Linkedin, Instagram, Twitter, Youtube, Facebook, Music } from 'lucide-react'
 import { FOOTER_NAVIGATION, COMPANY_INFO } from '@/constants/brand'
-
+import { Logo } from '@/components/Logo'
 const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: <Linkedin className="w-4 h-4" />,
   Instagram: <Instagram className="w-4 h-4" />,
@@ -24,12 +24,7 @@ export function Footer() {
             <Link href="/" className="inline-block mb-6">
               <div className="flex items-center space-x-3">
                 <div className="relative w-10 h-10">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    <rect x="2" y="2" width="18" height="18" fill="currentColor" className="text-ivory-50"/>
-                    <rect x="28" y="2" width="18" height="18" fill="currentColor" className="text-ivory-50"/>
-                    <rect x="2" y="28" width="18" height="18" fill="currentColor" className="text-ivory-50"/>
-                    <circle cx="38" cy="38" r="8" fill="currentColor" className="text-champagne-500"/>
-                  </svg>
+<Logo className="w-full h-full" />
                 </div>
                 <div>
                   <div className="text-xl font-serif tracking-tight text-ivory-50">

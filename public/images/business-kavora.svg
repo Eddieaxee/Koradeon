@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Golden wheat fields at dawn — abstract landscape">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFDF"/>
+      <stop offset="55%" stop-color="#EAE0C3"/>
+      <stop offset="100%" stop-color="#D9C79A"/>
+    </linearGradient>
+    <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A8B5C"/>
+      <stop offset="100%" stop-color="#6E7A4F"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5F7048"/>
+      <stop offset="100%" stop-color="#49573A"/>
+    </linearGradient>
+    <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D4A31"/>
+      <stop offset="100%" stop-color="#2C3626"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8C877"/>
+      <stop offset="70%" stop-color="#D9AE58"/>
+      <stop offset="100%" stop-color="#C99B45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1150" cy="330" r="210" fill="url(#sun)" opacity="0.9"/>
+  <circle cx="1150" cy="330" r="92" fill="#E3BE6B" opacity="0.85"/>
+
+  <path d="M0 560 C 320 500 560 590 860 555 C 1160 520 1380 570 1600 540 L1600 1000 L0 1000 Z" fill="url(#hillFar)"/>
+  <path d="M0 680 C 260 620 620 720 940 665 C 1240 615 1440 690 1600 655 L1600 1000 L0 1000 Z" fill="url(#hillMid)"/>
+  <path d="M0 820 C 340 760 700 860 1040 800 C 1320 755 1480 830 1600 800 L1600 1000 L0 1000 Z" fill="url(#hillNear)"/>
+
+  <g stroke="#D9C08A" stroke-width="3" opacity="0.5" stroke-linecap="round">
+    <path d="M120 905 C 200 880 280 895 360 875" fill="none"/>
+    <path d="M520 935 C 620 905 720 925 820 895" fill="none"/>
+    <path d="M960 900 C 1060 875 1160 890 1260 862" fill="none"/>
+    <path d="M340 965 C 440 940 540 955 640 930" fill="none"/>
+    <path d="M1180 955 C 1280 930 1380 945 1480 918" fill="none"/>
+  </g>
+
+  <g stroke="#2C3626" stroke-width="2" opacity="0.18">
+    <line x1="0" y1="700" x2="1600" y2="700"/>
+    <line x1="0" y1="760" x2="1600" y2="760"/>
+    <line x1="0" y1="860" x2="1600" y2="860"/>
+    <line x1="0" y1="940" x2="1600" y2="940"/>
+  </g>
+</svg>

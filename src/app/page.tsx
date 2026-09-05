@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { HeroSculpture } from '@/components/HeroSculpture'
+import Image from 'next/image'
 import { IntroAnimation } from '@/components/IntroAnimation'
 import { BUSINESSES } from '@/constants/brand'
 
@@ -35,8 +36,22 @@ export default function Home() {
       <main className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         {/* Hero Section */}
         <section className="relative h-screen flex items-center justify-center overflow-hidden bg-ivory-50">
-          {/* Three.js Background */}
-          <div className="absolute inset-0 opacity-40">
+          {/* Cinematic Artwork Background */}
+          <div className="absolute inset-0">
+            <Image
+              src="/images/hero-monolith.svg"
+              alt=""
+              fill
+              unoptimized
+              priority
+              sizes="100vw"
+              className="object-cover"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Three.js Sculpture */}
+          <div className="absolute inset-0 opacity-60">
             <HeroSculpture />
           </div>
 
@@ -197,11 +212,11 @@ export default function Home() {
                   className="group relative bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-large transition-all duration-500"
                 >
                   <div className={`aspect-video bg-gradient-to-br ${business.color === 'kavora' ? 'from-kavora-olive/20 to-kavora-forest/20' : business.color === 'ozura' ? 'from-ozura-ocean/20 to-ozura-turquoise/20' : business.color === 'rumara' ? 'from-rumara-champagne/30 to-rumara-stone/20' : 'from-arcovia-steel/20 to-arcovia-blue/20'} relative overflow-hidden`}>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className={`w-24 h-24 ${business.color === 'kavora' ? 'bg-kavora-olive/10' : business.color === 'ozura' ? 'bg-ozura-ocean/10' : business.color === 'rumara' ? 'bg-rumara-champagne/20' : 'bg-arcovia-steel/10'} rounded-full flex items-center justify-center`}>
-                        <span className="text-4xl font-serif text-stone-900">{business.icon}</span>
-                      </div>
-                    </div>
+                    <Image src={`/images/business-${business.id}.svg`} alt={`${business.name} — ${business.tagline}`} fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent" aria-hidden="true" />
+                    <span className="absolute left-5 top-5 rounded-full bg-ivory-50/90 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-stone-800">
+                      {business.tagline}
+                    </span>
                   </div>
                   <div className="p-8">
                     <h3 className="text-2xl font-serif text-stone-900 mb-2">{business.name}</h3>
@@ -359,9 +374,8 @@ export default function Home() {
                   className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500 group"
                 >
                   <div className="aspect-video bg-stone-100 relative overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-stone-400 text-sm">Coming Soon</span>
-                    </div>
+                    <Image src={["/images/news-corporate.svg", "/images/news-innovation.svg", "/images/news-infrastructure.svg"][index]} alt={article.title} fill unoptimized sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 via-transparent to-transparent" aria-hidden="true" />
                   </div>
                   <div className="p-6">
                     <div className="flex items-center space-x-3 mb-3">

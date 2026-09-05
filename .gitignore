@@ -58,3 +58,9 @@ lint-output.txt
 typecheck-output.txt
 build-done.txt
 og/
+
+# Build artifacts
+build.txt
+tc.txt
+lint.txt
+
