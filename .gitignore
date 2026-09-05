@@ -1,0 +1,60 @@
+# Dependencies
+node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.vscode
+.idea
+
+# OS
+Thumbs.db
+
+# Temporary build/verification outputs
+*-out.txt
+lint-*.txt
+build-*.txt
+*done.txt
+verify-done.txt
+og/
+_p/
+-p/
+
+# Temp/output files
+*-final.txt
+*-current.txt
+tsc-out.txt
+lint-output.txt
+typecheck-output.txt
+build-done.txt
+og/
