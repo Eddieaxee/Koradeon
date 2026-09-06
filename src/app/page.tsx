@@ -1,190 +1,250 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { motion, type Variants } from 'framer-motion'
+import { ArrowRight, ArrowUpRight, Cpu, LineChart, Sprout, Sun } from 'lucide-react'
 import Link from 'next/link'
-import { HeroSculpture } from '@/components/HeroSculpture'
 import Image from 'next/image'
+import { HeroSculpture } from '@/components/HeroSculpture'
 import { IntroAnimation } from '@/components/IntroAnimation'
+import MapSectionLazy from '@/components/MapSectionLazy'
 import { BUSINESSES } from '@/constants/brand'
+import { NEWS_ARTICLES } from '@/constants/news'
+import { IMAGES } from '@/constants/assets'
+import { useCountUp } from '@/hooks/useCountUp'
+
+const EASE = [0.16, 1, 0.3, 1] as const
+
+/* Hero content waits for the opening experience, then enters as one composition. */
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: (delay: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, delay, ease: [...EASE] },
+  }),
+}
+
+const INNOVATION_PILLARS = [
+  {
+    icon: Sprout,
+    title: 'Precision agriculture',
+    text: 'AI-guided irrigation, nutrition and yield modelling across the Kavora land bank.',
+  },
+  {
+    icon: Cpu,
+    title: 'Smart infrastructure',
+    text: 'Sensor-equipped corridors and utilities designed to be managed, not just built.',
+  },
+  {
+    icon: Sun,
+    title: 'Renewable systems',
+    text: 'Solar-plus-storage as the default power architecture for every new asset.',
+  },
+  {
+    icon: LineChart,
+    title: 'Data & intelligence',
+    text: 'Group-wide analytics that turn operating data into better capital decisions.',
+  },
+] as const
+
+function Stat({
+  value,
+  suffix = '',
+  label,
+  staticValue,
+}: {
+  value?: number
+  suffix?: string
+  label: string
+  staticValue?: string
+}) {
+  const count = useCountUp(value ?? 0)
+  return (
+    <div className="border-l border-stone-700/70 pl-5 sm:pl-7">
+      <span
+        ref={count.ref}
+        className="block font-serif text-3xl text-ivory-50 sm:text-4xl lg:text-[2.75rem]"
+      >
+        {staticValue ?? `${count.value.toLocaleString('en-US')}${suffix}`}
+      </span>
+      <span className="mt-2 block max-w-[16rem] text-xs leading-relaxed tracking-wide text-stone-400">
+        {label}
+      </span>
+    </div>
+  )
+}
 
 export default function Home() {
-  const [showIntro, setShowIntro] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
-
-  useEffect(() => {
-    // Check if intro has played
-    const introPlayed = sessionStorage.getItem('koradeon-intro-played')
-    if (introPlayed) {
-      setShowIntro(false)
-      setIsLoaded(true)
-    }
-  }, [])
-
-  const handleIntroComplete = () => {
-    setShowIntro(false)
-    setIsLoaded(true)
-  }
+  const loaded = isLoaded ? 'show' : 'hidden'
+  const latest = NEWS_ARTICLES.slice(0, 3)
 
   return (
     <>
-      {/* Intro Animation */}
-      {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
+      {/* Opening experience — plays once per session, skippable */}
+      <IntroAnimation onComplete={() => setIsLoaded(true)} />
 
-      {/* Main Content */}
-      <main className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Hero Section */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden bg-ivory-50">
-          {/* Cinematic Artwork Background */}
-          <div className="absolute inset-0">
-            <Image
-              src="/images/hero-monolith.svg"
-              alt=""
-              fill
-              unoptimized
-              priority
-              sizes="100vw"
-              className="object-cover"
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Three.js Sculpture */}
-          <div className="absolute inset-0 opacity-60">
+      <main
+        className={`min-h-screen transition-opacity duration-1000 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {/* ─────────────────── HERO — the 3D sculpture is the scene ──────── */}
+        <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ivory-50">
+          <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
             <HeroSculpture />
           </div>
 
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-ivory-50/50 via-transparent to-ivory-50" />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-ivory-50 via-ivory-50/60 to-transparent"
+            aria-hidden="true"
+          />
 
-          {/* Hero Content */}
-          <div className="relative z-10 container-custom text-center px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="mb-6"
-            >
-              <span className="inline-block px-4 py-2 bg-stone-900 text-ivory-50 text-sm tracking-widest uppercase rounded-full">
-                Building Enduring Businesses
-              </span>
-            </motion.div>
+          <div className="relative z-10 container-custom pb-28 pt-28">
+            <div className="max-w-3xl">
+              <motion.p
+                variants={reveal}
+                custom={0.05}
+                initial="hidden"
+                animate={loaded}
+                className="label mb-7 flex items-center gap-4"
+              >
+                <span className="h-px w-12 bg-champagne-600" aria-hidden="true" />
+                A diversified holding company · Est. 2024
+              </motion.p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="heading-xl text-stone-900 mb-8"
-            >
-              KÓRADEON
-              <span className="block text-3xl sm:text-4xl lg:text-5xl mt-4 font-sans font-light tracking-wide text-stone-600">
-                GROUP
-              </span>
-            </motion.h1>
+              <motion.h1
+                variants={reveal}
+                custom={0.15}
+                initial="hidden"
+                animate={loaded}
+                className="font-serif text-[2.6rem] leading-[1.05] tracking-tight text-stone-900 sm:text-6xl lg:text-[4.25rem]"
+              >
+                Building enduring
+                <br />
+                businesses.
+              </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="body-lg max-w-2xl mx-auto mb-12 text-stone-700"
-            >
-              A diversified holding company focused on long-term value creation across strategic industries.
-              Building institutions that transcend generations.
-            </motion.p>
+              <motion.p
+                variants={reveal}
+                custom={0.28}
+                initial="hidden"
+                animate={loaded}
+                className="body-lg mt-7 max-w-xl text-stone-700"
+              >
+                KÓRADEON invests with patience across agriculture, hospitality, real estate and
+                infrastructure — creating institutions designed to serve generations.
+              </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Link href="/about" className="btn-primary">
-                Discover Our Story
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-              <Link href="/businesses" className="btn-secondary">
-                Explore Our Businesses
-              </Link>
-            </motion.div>
+              <motion.div
+                variants={reveal}
+                custom={0.42}
+                initial="hidden"
+                animate={loaded}
+                className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+              >
+                <Link href="/businesses" className="btn-primary">
+                  The four pillars
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                </Link>
+                <Link href="/investors" className="btn-secondary">
+                  Investor relations
+                </Link>
+              </motion.div>
+            </div>
           </div>
 
-          {/* Scroll Indicator */}
+          {/* Scroll cue */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="absolute bottom-12 left-1/2 -translate-x-1/2"
+            animate={isLoaded ? { opacity: 1 } : {}}
+            transition={{ duration: 1, delay: 1.2 }}
+            className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+            aria-hidden="true"
           >
             <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-6 h-10 border-2 border-stone-400 rounded-full flex items-start justify-center p-2"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex h-10 w-6 items-start justify-center rounded-full border border-stone-400/80 p-1.5"
             >
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="w-1 h-2 bg-stone-400 rounded-full"
-              />
+              <span className="h-2 w-1 rounded-full bg-stone-500" />
             </motion.div>
           </motion.div>
         </section>
 
-        {/* Who We Are Section */}
+        {/* ───────────── WHO WE ARE — editorial image composition ──────────── */}
         <section className="section-padding bg-white">
-          <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+          <div className="container-custom grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8, ease: [...EASE] }}
+              className="lg:col-span-5"
+            >
+              <span className="label mb-6 block">Who we are</span>
+              <h2 className="heading-md text-stone-900">
+                A group built on four foundations
+              </h2>
+              <div className="body-md mt-6 space-y-5 text-stone-700">
+                <p>
+                  The name is the structure: <strong>K</strong>avora Farms,{' '}
+                  <strong>O</strong>zura Resorts, <strong>R</strong>umara Estates and{' '}
+                  <strong>A</strong>rcovia Infrastructure. Four businesses, one standard —
+                  patient capital, disciplined governance, work built to last.
+                </p>
+                <p>
+                  Each pillar operates independently and contributes to a single ambition:
+                  institutions that outlast the people who build them.
+                </p>
+              </div>
+              <Link
+                href="/about"
+                className="mt-9 inline-flex items-center gap-2 font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
               >
-                <span className="label mb-4 block">Who We Are</span>
-                <h2 className="heading-md text-stone-900 mb-6">
-                  Building institutions that stand the test of time
-                </h2>
-                <div className="space-y-4 body-md text-stone-700">
-                  <p>
-                    KÓRADEON GROUP is a diversified holding company with a singular focus: creating enduring value across strategic industries. We don't just build businesses—we build institutions designed to thrive for generations.
-                  </p>
-                  <p>
-                    Our name derives from the foundational pillars upon which we stand: <strong>K</strong>avora Farms, <strong>O</strong>zura Resorts, <strong>R</strong>umara Estates, and <strong>A</strong>rcovia Infrastructure. Each pillar represents a commitment to excellence in its respective field.
-                  </p>
-                  <p>
-                    With roots in Africa and a global outlook, we combine local expertise with international best practices to deliver sustainable growth and lasting impact.
-                  </p>
-                </div>
-                <Link href="/about" className="inline-flex items-center mt-8 text-stone-900 font-medium hover:text-champagne-600 transition-colors duration-300">
-                  Learn more about us
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </motion.div>
+                Inside the Group
+                <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+              </Link>
+            </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="relative"
-              >
-                <div className="aspect-square bg-stone-100 rounded-2xl overflow-hidden">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-32 h-32 mx-auto mb-6 bg-stone-900 rounded-2xl flex items-center justify-center">
-                        <span className="text-6xl font-serif text-ivory-50">K</span>
-                      </div>
-                      <p className="text-stone-600 text-lg">Est. 2024</p>
-                      <p className="text-stone-500 text-sm mt-2">Lagos, Nigeria</p>
-                    </div>
-                  </div>
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.9, delay: 0.1, ease: [...EASE] }}
+              className="lg:col-span-7"
+            >
+              <div className="relative pb-12 pr-4 sm:pr-10">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-stone-200 shadow-medium">
+                  <Image
+                    src={IMAGES.peopleMeeting}
+                    alt="KÓRADEON leadership in working session at group headquarters"
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                    className="object-cover"
+                  />
                 </div>
-              </motion.div>
-            </div>
+                <div className="absolute bottom-0 right-0 aspect-[4/3] w-1/2 overflow-hidden rounded-lg border-4 border-white shadow-large sm:w-[45%]">
+                  <Image
+                    src={IMAGES.cityHarbour}
+                    alt="Harbour skyline — the Group is headquartered in Lagos, Nigeria"
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 50vw, 26vw"
+                    className="object-cover"
+                  />
+                </div>
+                <span className="absolute bottom-5 left-5 rounded-full bg-stone-900 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory-50 shadow-large">
+                  Lagos · Est. 2024
+                </span>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Four Pillars Section */}
+        {/* ───────────── FOUR PILLARS — business cards ─────────────────────── */}
         <section className="section-padding bg-ivory-50">
           <div className="container-custom">
             <motion.div
@@ -192,41 +252,57 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-16"
+              className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
             >
-              <span className="label mb-4 block">Our Ecosystem</span>
-              <h2 className="heading-md text-stone-900 mb-4">Four Pillars of Excellence</h2>
-              <p className="body-lg max-w-2xl mx-auto text-stone-700">
-                Each business operates independently while contributing to a unified ecosystem of growth and innovation.
+              <div className="max-w-xl">
+                <span className="label mb-4 block">Our ecosystem</span>
+                <h2 className="heading-md text-stone-900">Four pillars, one standard</h2>
+              </div>
+              <p className="body-md max-w-sm text-stone-600">
+                Independent operating companies, a single discipline of ownership.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {BUSINESSES.map((business, index) => (
                 <motion.div
                   key={business.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="group relative bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-large transition-all duration-500"
+                  transition={{ duration: 0.8, delay: index * 0.08 }}
                 >
-                  <div className={`aspect-video bg-gradient-to-br ${business.color === 'kavora' ? 'from-kavora-olive/20 to-kavora-forest/20' : business.color === 'ozura' ? 'from-ozura-ocean/20 to-ozura-turquoise/20' : business.color === 'rumara' ? 'from-rumara-champagne/30 to-rumara-stone/20' : 'from-arcovia-steel/20 to-arcovia-blue/20'} relative overflow-hidden`}>
-                    <Image src={`/images/business-${business.id}.svg`} alt={`${business.name} — ${business.tagline}`} fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent" aria-hidden="true" />
-                    <span className="absolute left-5 top-5 rounded-full bg-ivory-50/90 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-stone-800">
-                      {business.tagline}
-                    </span>
-                  </div>
-                  <div className="p-8">
-                    <h3 className="text-2xl font-serif text-stone-900 mb-2">{business.name}</h3>
-                    <p className="text-stone-600 mb-4">{business.tagline}</p>
-                    <p className="text-stone-700 mb-6">{business.description}</p>
-                    <Link href={`/businesses#${business.id}`} className="inline-flex items-center text-stone-900 font-medium hover:text-champagne-600 transition-colors duration-300">
-                      Explore {business.name.split(' ')[0]}
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Link>
-                  </div>
+                  <Link
+                    href={`/businesses#${business.id}`}
+                    className="group relative block overflow-hidden rounded-lg border border-stone-200 bg-white shadow-soft transition-all duration-500 hover:shadow-large"
+                  >
+                    <div className="relative aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={IMAGES[business.id as keyof typeof IMAGES]}
+                        alt={`${business.name} — ${business.tagline}`}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      />
+                      <div
+                        className="absolute inset-0 bg-gradient-to-t from-stone-900/55 via-stone-900/10 to-transparent"
+                        aria-hidden="true"
+                      />
+                      <span className="absolute left-5 top-5 rounded-full bg-ivory-50/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-800">
+                        {business.tagline}
+                      </span>
+                      <h3 className="absolute bottom-5 left-5 font-serif text-2xl text-ivory-50 sm:text-3xl">
+                        {business.name}
+                      </h3>
+                    </div>
+                    <div className="flex items-center justify-between gap-6 p-6">
+                      <p className="body-sm max-w-md text-stone-600">{business.description}</p>
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-stone-300 text-stone-700 transition-all duration-300 group-hover:border-stone-900 group-hover:bg-stone-900 group-hover:text-ivory-50">
+                        <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -246,85 +322,131 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Philosophy Section */}
+        {/* ───────────── PHILOSOPHY — dark stats & pull-quote band ─────────── */}
         <section className="section-padding bg-stone-900 text-ivory-50">
           <div className="container-custom">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-4xl mx-auto text-center"
-            >
-              <span className="label mb-6 block text-champagne-400">Our Philosophy</span>
-              <h2 className="heading-lg mb-8">
-                Building beyond generations
-              </h2>
-              <div className="space-y-6 body-lg text-stone-300">
-                <p>
-                  We believe in creating institutions, not just companies. Every decision we make is guided by a long-term perspective that prioritizes sustainable growth, responsible stewardship, and lasting impact.
-                </p>
-                <p>
-                  Our commitment to Africa is unwavering. We see the continent's potential not as an opportunity for extraction, but as a foundation for building world-class enterprises that will serve generations to come.
-                </p>
-              </div>
-              <Link href="/legacy" className="inline-flex items-center mt-12 text-champagne-400 font-medium hover:text-champagne-300 transition-colors duration-300">
-                Read our legacy statement
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Innovation Section */}
-        <section className="section-padding bg-white">
-          <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="order-2 lg:order-1"
+                className="lg:col-span-7"
               >
-                <div className="grid grid-cols-2 gap-4">
-                  {['AI & Automation', 'Smart Infrastructure', 'Sustainable Tech', 'Digital Innovation'].map((item, index) => (
-                    <div key={index} className="aspect-square bg-stone-100 rounded-xl flex items-center justify-center p-6 hover:bg-stone-200 transition-colors duration-300">
-                      <span className="text-sm font-medium text-stone-700 text-center">{item}</span>
-                    </div>
-                  ))}
-                </div>
+                <span className="label mb-6 block text-champagne-300">Our philosophy</span>
+                <h2 className="heading-md text-ivory-50">We think in decades, not quarters</h2>
+                <blockquote className="mt-10 border-l-2 border-champagne-500 pl-6 sm:pl-8">
+                  <p className="font-serif text-xl leading-relaxed text-stone-200 sm:text-2xl">
+                    “We are not merely building companies. We are creating institutions that
+                    will serve future generations.”
+                  </p>
+                  <cite className="mt-4 block text-xs uppercase not-italic tracking-[0.25em] text-stone-400">
+                    Legacy statement · 2024
+                  </cite>
+                </blockquote>
+                <Link
+                  href="/legacy"
+                  className="mt-10 inline-flex items-center gap-2 font-medium text-champagne-300 transition-colors duration-300 hover:text-champagne-200"
+                >
+                  Read the full legacy statement
+                  <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="order-1 lg:order-2"
+                transition={{ duration: 0.8, delay: 0.15 }}
+                className="grid grid-cols-1 gap-9 sm:grid-cols-2 lg:col-span-5 lg:content-center"
               >
-                <span className="label mb-4 block">Innovation</span>
-                <h2 className="heading-md text-stone-900 mb-6">
-                  Technology-driven growth for the future
-                </h2>
-                <div className="space-y-4 body-md text-stone-700">
-                  <p>
-                    Innovation is at the heart of everything we do. From AI-powered agriculture to smart infrastructure, we leverage cutting-edge technology to drive efficiency and create competitive advantages.
-                  </p>
-                  <p>
-                    Our innovation initiatives span across all four businesses, ensuring we remain at the forefront of our industries while building capabilities that will define the future.
-                  </p>
-                </div>
-                <Link href="/innovation" className="inline-flex items-center mt-8 text-stone-900 font-medium hover:text-champagne-600 transition-colors duration-300">
-                  Explore our innovation
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
+                <Stat
+                  value={4}
+                  label="Operating pillars across agriculture, hospitality, property and infrastructure"
+                />
+                <Stat
+                  value={8}
+                  label="Offices and teams across Africa, Europe, the Gulf and North America"
+                />
+                <Stat staticValue="2040" label="Group-wide net-zero operational commitment" />
+                <Stat staticValue="2024" label="Founded — with patient, long-horizon capital" />
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* News Preview Section */}
+        {/* ───────────── INNOVATION — capabilities + field imagery ─────────── */}
+        <section className="section-padding bg-white">
+          <div className="container-custom grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-5"
+            >
+              <span className="label mb-6 block">Innovation</span>
+              <h2 className="heading-md text-stone-900">
+                Technology in service of the physical economy
+              </h2>
+              <p className="body-md mt-6 text-stone-700">
+                Our innovation agenda is not cosmetic. Sensor networks, analytics and
+                renewable systems are embedded into the operations of every business —
+                lowering costs, raising yields and compounding advantage.
+              </p>
+              <Link
+                href="/innovation"
+                className="mt-9 inline-flex items-center gap-2 font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
+              >
+                Explore innovation
+                <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+              </Link>
+
+              <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {INNOVATION_PILLARS.map(({ icon: Icon, title, text }) => (
+                  <div
+                    key={title}
+                    className="rounded-lg border border-stone-200 bg-ivory-50 p-5 transition-colors duration-300 hover:border-stone-300"
+                  >
+                    <Icon className="h-5 w-5 text-champagne-700" aria-hidden="true" />
+                    <h3 className="mt-3 text-sm font-semibold text-stone-900">{title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-stone-600">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.9, delay: 0.1 }}
+              className="lg:col-span-7"
+            >
+              <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-stone-200 shadow-medium sm:aspect-[16/13]">
+                <Image
+                  src={IMAGES.drone}
+                  alt="Drone surveying agricultural land — precision technology in the field"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/75 via-stone-900/30 to-transparent p-6 sm:p-8">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                    In the field
+                  </p>
+                  <p className="mt-2 max-w-sm font-serif text-lg text-ivory-50 sm:text-xl">
+                    Aerial intelligence guides planting, irrigation and harvest across the
+                    Kavora land bank.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ───────────── NEWSROOM PREVIEW — editorial cards ────────────────── */}
         <section className="section-padding bg-ivory-50">
           <div className="container-custom">
             <motion.div
@@ -332,106 +454,114 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="flex items-end justify-between mb-12"
+              className="mb-12 flex items-end justify-between gap-6"
             >
               <div>
-                <span className="label mb-4 block">Latest Updates</span>
-                <h2 className="heading-md text-stone-900">News & Insights</h2>
+                <span className="label mb-4 block">News & insights</span>
+                <h2 className="heading-md text-stone-900">From the newsroom</h2>
               </div>
-              <Link href="/newsroom" className="hidden sm:inline-flex items-center text-stone-900 font-medium hover:text-champagne-600 transition-colors duration-300">
-                View all news
-                <ArrowRight className="ml-2 w-5 h-5" />
+              <Link
+                href="/newsroom"
+                className="hidden items-center gap-2 font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700 sm:inline-flex"
+              >
+                View all stories
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  category: 'Corporate',
-                  title: 'KÓRADEON GROUP Announces Strategic Expansion into East Africa',
-                  date: 'Coming Soon',
-                  excerpt: 'Plans to establish regional headquarters and launch new business ventures across the East African region.'
-                },
-                {
-                  category: 'Innovation',
-                  title: 'Kavora Farms Launches Precision Agriculture Initiative',
-                  date: 'Coming Soon',
-                  excerpt: 'Leveraging AI and IoT technologies to revolutionize sustainable farming practices across Nigeria.'
-                },
-                {
-                  category: 'Partnership',
-                  title: 'Arcovia Infrastructure Wins Major Transportation Contract',
-                  date: 'Coming Soon',
-                  excerpt: 'Awarded contract for critical infrastructure development project valued at significant investment.'
-                }
-              ].map((article, index) => (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
+              {latest.map((article, index) => (
                 <motion.article
-                  key={index}
+                  key={article.slug}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500 group"
+                  className="group"
                 >
-                  <div className="aspect-video bg-stone-100 relative overflow-hidden">
-                    <Image src={["/images/news-corporate.svg", "/images/news-innovation.svg", "/images/news-infrastructure.svg"][index]} alt={article.title} fill unoptimized sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 via-transparent to-transparent" aria-hidden="true" />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <span className="text-xs font-medium tracking-wider uppercase text-champagne-600">{article.category}</span>
-                      <span className="text-stone-400 text-sm">{article.date}</span>
+                  <Link href={`/newsroom/${article.slug}`} className="block">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-stone-200">
+                      <Image
+                        src={article.image}
+                        alt={article.imageAlt}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      />
                     </div>
-                    <h3 className="text-xl font-serif text-stone-900 mb-3 group-hover:text-champagne-600 transition-colors duration-300">
-                      {article.title}
-                    </h3>
-                    <p className="text-stone-700 mb-4 line-clamp-2">
-                      {article.excerpt}
-                    </p>
-                    <Link href="/newsroom" className="inline-flex items-center text-stone-900 font-medium hover:text-champagne-600 transition-colors duration-300">
-                      Read more
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Link>
-                  </div>
+                    <div className="mt-5">
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="font-semibold uppercase tracking-[0.18em] text-champagne-700">
+                          {article.category}
+                        </span>
+                        <span className="h-px w-6 bg-stone-300" aria-hidden="true" />
+                        <time
+                          dateTime={article.date}
+                          className="text-stone-500"
+                        >
+                          {new Date(article.date).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })}
+                        </time>
+                      </div>
+                      <h3 className="mt-3 font-serif text-xl leading-snug text-stone-900 transition-colors duration-300 group-hover:text-champagne-700">
+                        {article.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-stone-600">
+                        {article.excerpt}
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-stone-900">
+                        Read story
+                        <ArrowRight
+                          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </div>
+                  </Link>
                 </motion.article>
               ))}
             </div>
 
-            <div className="text-center mt-12 sm:hidden">
+            <div className="mt-12 text-center sm:hidden">
               <Link href="/newsroom" className="btn-primary">
-                View all news
-                <ArrowRight className="ml-2 w-5 h-5" />
+                View all stories
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Legacy Statement Section */}
-        <section className="section-padding bg-stone-50">
+        {/* ───────────── GLOBAL PRESENCE — interactive map ─────────────────── */}
+        <section className="section-padding bg-white">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="max-w-4xl mx-auto text-center"
+              className="mb-12 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
             >
-              <span className="label mb-6 block">Our Commitment</span>
-              <h2 className="heading-lg text-stone-900 mb-8">
-                A legacy of stewardship
-              </h2>
-              <div className="space-y-6 body-lg text-stone-700">
-                <p>
-                  We are not merely building companies. We are creating institutions that will serve future generations. Every business we establish, every investment we make, and every partnership we forge is guided by a commitment to long-term value creation and responsible growth.
-                </p>
-                <p>
-                  Our vision extends beyond quarterly results and annual targets. We think in decades, not years. We measure success not just by financial returns, but by the lasting positive impact we create for our employees, communities, and the African continent.
-                </p>
+              <div className="max-w-xl">
+                <span className="label mb-4 block">Global presence</span>
+                <h2 className="heading-md text-stone-900">African roots, global reach</h2>
               </div>
-              <Link href="/legacy" className="inline-flex items-center mt-12 btn-primary">
-                Read Our Full Legacy Statement
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
+              <p className="body-md max-w-sm text-stone-600">
+                Select a location to explore the Group&apos;s operating footprint and
+                representative offices.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.1 }}
+            >
+              <MapSectionLazy dark={false} />
             </motion.div>
           </div>
         </section>

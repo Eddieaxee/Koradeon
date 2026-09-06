@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Quote } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -43,14 +45,14 @@ const commitments = [
 export default function LegacyPage() {
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section — editorial split */}
       <section className="section-padding bg-white">
-        <div className="container-custom">
+        <div className="container-custom grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            className="lg:col-span-6"
           >
             <span className="label mb-6 block">Our Legacy</span>
             <h1 className="heading-lg text-stone-900 mb-8">
@@ -65,6 +67,33 @@ export default function LegacyPage() {
               </p>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="lg:col-span-6"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-stone-200 shadow-medium">
+              <Image
+                src={IMAGES.cityDusk}
+                alt="City skyline at dusk — the long horizon KÓRADEON builds for"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/70 via-stone-900/25 to-transparent p-6">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                  The long horizon
+                </p>
+                <p className="mt-1.5 font-serif text-lg text-ivory-50">
+                  We measure our work in generations, not fiscal years.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -76,13 +105,15 @@ export default function LegacyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-3xl"
           >
-            <Quote className="w-12 h-12 text-champagne-500 mb-8" />
-            <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-serif leading-tight mb-8">
+            <Quote className="h-10 w-10 text-champagne-500 mb-8" aria-hidden="true" />
+            <blockquote className="text-2xl sm:text-3xl font-serif leading-snug mb-8">
               We are building institutions that will outlive us, serve generations we will never meet, and create value that extends far beyond our own lifetimes.
             </blockquote>
-            <p className="text-xl text-champagne-400">The KÓRADEON Philosophy</p>
+            <p className="text-base uppercase tracking-[0.2em] text-champagne-400">
+              The KÓRADEON Philosophy
+            </p>
           </motion.div>
         </div>
       </section>

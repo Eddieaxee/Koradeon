@@ -1,7 +1,7 @@
 'use client'
 
-import { Linkedin, Instagram, Twitter, Youtube, Facebook, Music } from 'lucide-react'
 import { COMPANY_INFO } from '@/constants/brand'
+import { LinkedinIcon, TiktokIcon, InstagramIcon, XIcon, YoutubeIcon, FacebookIcon } from '@/components/SocialIcons'
 
 interface SocialLink {
   name: string
@@ -14,38 +14,38 @@ const socialLinks: SocialLink[] = [
   {
     name: 'LinkedIn',
     url: COMPANY_INFO.social.linkedin,
-    icon: <Linkedin className="w-5 h-5" />,
+    icon: <LinkedinIcon className="w-5 h-5" />,
     hoverColor: 'hover:text-blue-600'
   },
   {
     name: 'Instagram',
     url: COMPANY_INFO.social.instagram,
-    icon: <Instagram className="w-5 h-5" />,
+    icon: <InstagramIcon className="w-5 h-5" />,
     hoverColor: 'hover:text-pink-600'
   },
   {
     name: 'X (Twitter)',
     url: COMPANY_INFO.social.twitter,
-    icon: <Twitter className="w-5 h-5" />,
+    icon: <XIcon className="w-5 h-5" />,
     hoverColor: 'hover:text-slate-900'
   },
   {
     name: 'YouTube',
     url: COMPANY_INFO.social.youtube,
-    icon: <Youtube className="w-5 h-5" />,
+    icon: <YoutubeIcon className="w-5 h-5" />,
     hoverColor: 'hover:text-red-600'
   },
   {
     name: 'Facebook',
     url: COMPANY_INFO.social.facebook,
-    icon: <Facebook className="w-5 h-5" />,
+    icon: <FacebookIcon className="w-5 h-5" />,
     hoverColor: 'hover:text-blue-700'
   },
   {
     name: 'TikTok',
     url: COMPANY_INFO.social.tiktok,
-    icon: <Music className="w-5 h-5" />,
-    hoverColor: 'hover:text-black'
+    icon: <TiktokIcon className="w-5 h-5" />,
+    hoverColor: 'hover:text-[#F72582]'
   }
 ]
 

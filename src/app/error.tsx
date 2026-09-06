@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { Logo } from '@/components/Logo'
 
 export default function Error({
   error,
@@ -25,8 +26,9 @@ export default function Error({
           transition={{ duration: 0.8 }}
           className="max-w-2xl mx-auto text-center"
         >
-          <div className="mb-8">
-            <span className="text-9xl font-serif text-stone-200">!</span>
+          <div className="mb-10 flex flex-col items-center gap-6">
+            <Logo className="h-14 w-14" />
+            <span className="text-xs uppercase tracking-[0.4em] text-stone-400">Unexpected error</span>
           </div>
           
           <h1 className="heading-md text-stone-900 mb-6">

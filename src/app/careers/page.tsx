@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Users, Briefcase, GraduationCap, Heart } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -59,14 +61,14 @@ const openPositions = [
 export default function CareersPage() {
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section — editorial split */}
       <section className="section-padding bg-white">
-        <div className="container-custom">
+        <div className="container-custom grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            className="lg:col-span-6"
           >
             <span className="label mb-6 block">Careers</span>
             <h1 className="heading-lg text-stone-900 mb-8">
@@ -79,6 +81,33 @@ export default function CareersPage() {
               <p>
                 At KÓRADEON, you'll have the opportunity to work on transformative projects, collaborate with industry leaders, and contribute to building businesses that will serve generations to come.
               </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="lg:col-span-6"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-stone-200 shadow-medium">
+              <Image
+                src={IMAGES.peopleTeam}
+                alt="KÓRADEON colleagues collaborating in the Lagos office"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/70 via-stone-900/25 to-transparent p-6">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                  Life at KÓRADEON
+                </p>
+                <p className="mt-1.5 font-serif text-lg text-ivory-50">
+                  One team across four businesses — Lagos and beyond.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -230,15 +259,22 @@ export default function CareersPage() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="aspect-video bg-stone-100 rounded-2xl overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-20 h-20 mx-auto mb-4 bg-stone-900 rounded-xl flex items-center justify-center">
-                      <GraduationCap className="w-10 h-10 text-champagne-500" />
-                    </div>
-                    <p className="text-stone-600 font-medium">Graduate Programme</p>
-                    <p className="text-stone-500 text-sm mt-2">Launch your career</p>
-                  </div>
+              <div className="relative aspect-video overflow-hidden rounded-lg border border-stone-200 shadow-medium">
+                <Image
+                  src={IMAGES.meetingBoard}
+                  alt="Graduate associates in a strategy session with senior leadership"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/75 via-stone-900/25 to-transparent p-6">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                    Graduate Programme
+                  </p>
+                  <p className="mt-1.5 font-serif text-lg text-ivory-50">
+                    Launch your career where decisions are made.
+                  </p>
                 </div>
               </div>
             </motion.div>

@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Lightbulb, Cpu, Globe, Zap } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -49,24 +51,68 @@ export default function InnovationPage() {
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="section-padding bg-white">
-        <div className="container-custom">
+        <div className="container-custom grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            className="lg:col-span-6"
           >
             <span className="label mb-6 block">Innovation</span>
-            <h1 className="heading-lg text-stone-900 mb-8">
-              Technology-driven growth for the future
+            <h1 className="text-3xl font-serif leading-[1.1] tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+              Technology in service of the physical economy
             </h1>
-            <div className="space-y-6 body-lg text-stone-700">
+            <div className="body-md mt-7 max-w-xl space-y-5 text-stone-700">
               <p>
-                Innovation is at the heart of KÓRADEON GROUP's strategy. We leverage cutting-edge technology to drive efficiency, create competitive advantages, and build businesses that are prepared for the future.
+                Innovation at KÓRADEON is not cosmetic. Sensor networks, analytics and
+                renewable systems are embedded into the daily operations of every business —
+                lowering costs, raising yields and compounding advantage season after season.
               </p>
               <p>
-                From AI-powered agriculture to smart infrastructure, our innovation initiatives span across all four businesses, ensuring we remain at the forefront of our industries.
+                From AI-guided agriculture to instrumented infrastructure corridors, we invest
+                in capabilities that make our operating companies harder to compete with.
               </p>
+            </div>
+            <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-stone-200 pt-8">
+              <div>
+                <dt className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Programmes</dt>
+                <dd className="mt-2 font-serif text-2xl text-stone-900 sm:text-3xl">12+</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Pilots live</dt>
+                <dd className="mt-2 font-serif text-2xl text-stone-900 sm:text-3xl">7</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Target</dt>
+                <dd className="mt-2 font-serif text-2xl text-stone-900 sm:text-3xl">2040</dd>
+              </div>
+            </dl>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15 }}
+            className="lg:col-span-6"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-stone-200 shadow-medium">
+              <Image
+                src={IMAGES.drone}
+                alt="Drone surveying agricultural land — precision technology in the field"
+                fill
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/70 via-stone-900/25 to-transparent p-6">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                  In the field
+                </p>
+                <p className="mt-2 font-serif text-lg text-ivory-50 sm:text-xl">
+                  Aerial intelligence guides planting, irrigation and harvest across the Kavora
+                  land bank.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>

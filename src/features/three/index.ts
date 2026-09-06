@@ -1,1 +1,0 @@
-export { LogoScene } from './LogoScene'

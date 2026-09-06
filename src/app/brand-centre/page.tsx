@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Download, Image as ImageIcon, FileText, Palette } from 'lucide-react'
 import Link from 'next/link'
+import { Logo } from '@/components/Logo'
 
 
 
@@ -100,13 +101,13 @@ export default function BrandCentrePage() {
                         </li>
                       ))}
                     </ul>
-                    <button
-                      disabled
-                      className="inline-flex items-center text-stone-900 font-medium opacity-50 cursor-not-allowed"
+                    <a
+                      href="mailto:brand@koradeon.com?subject=Brand%20Asset%20Access%20Request"
+                      className="inline-flex items-center font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
                     >
-                      Access Resources
+                      Request access
                       <ArrowRight className="ml-2 w-4 h-4" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </motion.div>
@@ -137,8 +138,8 @@ export default function BrandCentrePage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-center"
             >
-              <div className="w-20 h-20 mx-auto mb-6 bg-stone-900 rounded-2xl flex items-center justify-center">
-                <span className="text-3xl font-serif text-ivory-50">K</span>
+              <div className="mb-6 flex justify-center">
+                <Logo className="h-20 w-20" title="KÓRADEON GROUP official logo" />
               </div>
               <h3 className="text-xl font-serif text-stone-900 mb-3">Logo Usage</h3>
               <p className="text-stone-700">

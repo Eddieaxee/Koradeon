@@ -1,8 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Filter } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Filter } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -12,7 +15,10 @@ const projects = [
     title: 'Agricultural Innovation Hub',
     category: 'Agriculture',
     business: 'Kavora Farms',
+    href: '/businesses#kavora',
     status: 'In Development',
+    image: IMAGES.kavora,
+    imageAlt: 'Wheat field at golden hour — the Kavora land bank',
     description: 'A state-of-the-art agricultural research and innovation center focused on sustainable farming practices and technology integration.'
   },
   {
@@ -20,7 +26,10 @@ const projects = [
     title: 'Coastal Resort Development',
     category: 'Hospitality',
     business: 'Ozura Resorts',
+    href: '/businesses#ozura',
     status: 'Planning',
+    image: IMAGES.ozuraBeach,
+    imageAlt: 'Turquoise shoreline destined for the first Ozura resort',
     description: 'A luxury beachfront resort combining world-class hospitality with sustainable design and local cultural experiences.'
   },
   {
@@ -28,7 +37,10 @@ const projects = [
     title: 'Urban Mixed-Use Development',
     category: 'Real Estate',
     business: 'Rumara Estates',
+    href: '/businesses#rumara',
     status: 'Planning',
+    image: IMAGES.buildingModern,
+    imageAlt: 'Contemporary residential architecture for the Rumara masterplan',
     description: 'A transformative mixed-use development integrating residential, commercial, and public spaces in a major African city.'
   },
   {
@@ -36,7 +48,10 @@ const projects = [
     title: 'Transportation Infrastructure',
     category: 'Infrastructure',
     business: 'Arcovia Infrastructure',
+    href: '/businesses#arcovia',
     status: 'Planning',
+    image: IMAGES.arcoviaBridge,
+    imageAlt: 'Bridge engineering — connectivity at Arcovia scale',
     description: 'A critical transportation infrastructure project designed to improve connectivity and support economic growth.'
   },
   {
@@ -44,7 +59,10 @@ const projects = [
     title: 'Smart Agriculture Initiative',
     category: 'Agriculture',
     business: 'Kavora Farms',
+    href: '/businesses#kavora',
     status: 'Research',
+    image: IMAGES.farmer,
+    imageAlt: 'Field agronomist reviewing crop data',
     description: 'Implementing IoT sensors, AI-driven analytics, and automation to revolutionize crop management and yield optimization.'
   },
   {
@@ -52,7 +70,10 @@ const projects = [
     title: 'Wellness Retreat Concept',
     category: 'Hospitality',
     business: 'Ozura Resorts',
+    href: '/businesses#ozura',
     status: 'Concept',
+    image: IMAGES.luxuryPool,
+    imageAlt: 'Resort pool at dusk — the Ozura wellness concept',
     description: 'A luxury wellness retreat combining nature, spa treatments, and holistic health programs in a serene African setting.'
   }
 ]
@@ -60,6 +81,12 @@ const projects = [
 const categories = ['All', 'Agriculture', 'Hospitality', 'Real Estate', 'Infrastructure']
 
 export default function PortfolioPage() {
+  const [activeCategory, setActiveCategory] = useState('All')
+  const filtered =
+    activeCategory === 'All'
+      ? projects
+      : projects.filter((project) => project.category === activeCategory)
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -97,8 +124,11 @@ export default function PortfolioPage() {
                 {categories.map((category) => (
                   <button
                     key={category}
+                    type="button"
+                    onClick={() => setActiveCategory(category)}
+                    aria-pressed={activeCategory === category}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      category === 'All'
+                      activeCategory === category
                         ? 'bg-stone-900 text-ivory-50'
                         : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
                     }`}
@@ -116,7 +146,7 @@ export default function PortfolioPage() {
       <section className="section-padding bg-ivory-50">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {filtered.map((project, index) => (
               <motion.article
                 key={project.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -125,42 +155,44 @@ export default function PortfolioPage() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500 group"
               >
-                {/* Project Image Placeholder */}
-                <div className="aspect-video bg-stone-100 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-3 bg-stone-200 rounded-xl flex items-center justify-center">
-                        <span className="text-2xl font-serif text-stone-400">Coming Soon</span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.imageAlt}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-stone-900 text-ivory-50 text-xs font-medium tracking-wider uppercase rounded-full">
+                    <span className="px-3 py-1 bg-stone-900/90 backdrop-blur text-ivory-50 text-[11px] font-medium tracking-[0.15em] uppercase rounded-full">
                       {project.status}
                     </span>
                   </div>
                 </div>
 
-                {/* Project Info */}
                 <div className="p-6">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="text-xs font-medium tracking-wider uppercase text-champagne-600">{project.category}</span>
-                    <span className="text-stone-400 text-sm">•</span>
-                    <span className="text-sm text-stone-500">{project.business}</span>
+                  <div className="flex items-center gap-2 mb-3 text-xs">
+                    <span className="font-medium tracking-wider uppercase text-champagne-600">{project.category}</span>
+                    <span className="h-px w-5 bg-stone-300" aria-hidden="true" />
+                    <span className="text-stone-500">{project.business}</span>
                   </div>
                   <h3 className="text-xl font-serif text-stone-900 mb-3 group-hover:text-champagne-600 transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-stone-700 mb-4 line-clamp-2">
+                  <p className="text-stone-700 mb-5 line-clamp-2">
                     {project.description}
                   </p>
-                  <button
-                    disabled
-                    className="inline-flex items-center text-stone-900 font-medium opacity-50 cursor-not-allowed"
+                  <Link
+                    href={project.href}
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-stone-900 hover:text-champagne-600 transition-colors duration-300"
                   >
-                    View Project
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </button>
+                    View project
+                    <ArrowUpRight
+                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </Link>
                 </div>
               </motion.article>
             ))}

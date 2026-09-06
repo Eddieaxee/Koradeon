@@ -6,15 +6,18 @@ import {
   Mail,
   Phone,
   MapPin,
-  Clock,
-  Linkedin,
-  Instagram,
-  Twitter,
-  Youtube,
-  Facebook,
-  Music
+  Clock
 } from 'lucide-react'
 import { COMPANY_INFO } from '@/constants/brand'
+import MapSectionLazy from '@/components/MapSectionLazy'
+import {
+  LinkedinIcon,
+  TiktokIcon,
+  InstagramIcon,
+  XIcon,
+  YoutubeIcon,
+  FacebookIcon
+} from '@/components/SocialIcons'
 
 
 
@@ -256,24 +259,24 @@ export default function ContactPage() {
 
                                         <div className="pt-6 border-t border-stone-200">
                       <h4 className="text-sm font-semibold tracking-wider uppercase text-stone-900 mb-3">Follow Us</h4>
-                      <div className="flex items-center space-x-6">
-                        <a href={COMPANY_INFO.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-blue-500 transition-all duration-300 group" aria-label="LinkedIn">
-                          <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                      <div className="flex items-center space-x-5">
+                        <a href={COMPANY_INFO.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#0A66C2] transition-colors duration-300" aria-label="KÓRADEON on LinkedIn">
+                          <LinkedinIcon className="w-5 h-5" />
                         </a>
-                        <a href={COMPANY_INFO.social.instagram} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-pink-500 transition-all duration-300 group" aria-label="Instagram">
-                          <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <a href={COMPANY_INFO.social.tiktok} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-stone-900 transition-colors duration-300" aria-label="KÓRADEON on TikTok">
+                          <TiktokIcon className="w-5 h-5" />
                         </a>
-                        <a href={COMPANY_INFO.social.twitter} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-sky-400 transition-all duration-300 group" aria-label="X (Twitter)">
-                          <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <a href={COMPANY_INFO.social.instagram} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#E4405F] transition-colors duration-300" aria-label="KÓRADEON on Instagram">
+                          <InstagramIcon className="w-5 h-5" />
                         </a>
-                        <a href={COMPANY_INFO.social.youtube} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-red-500 transition-all duration-300 group" aria-label="YouTube">
-                          <Youtube className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <a href={COMPANY_INFO.social.twitter} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-stone-900 transition-colors duration-300" aria-label="KÓRADEON on X (Twitter)">
+                          <XIcon className="w-5 h-5" />
                         </a>
-                        <a href={COMPANY_INFO.social.facebook} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-blue-600 transition-all duration-300 group" aria-label="Facebook">
-                          <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <a href={COMPANY_INFO.social.youtube} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#FF0000] transition-colors duration-300" aria-label="KÓRADEON on YouTube">
+                          <YoutubeIcon className="w-5 h-5" />
                         </a>
-                        <a href={COMPANY_INFO.social.tiktok} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#F72582] transition-all duration-300 group" aria-label="TikTok">
-                          <Music className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <a href={COMPANY_INFO.social.facebook} target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-[#1877F2] transition-colors duration-300" aria-label="KÓRADEON on Facebook">
+                          <FacebookIcon className="w-5 h-5" />
                         </a>
                       </div>
                     </div>
@@ -299,15 +302,7 @@ export default function ContactPage() {
             <h2 className="heading-md text-stone-900 mb-4">Visit our headquarters</h2>
           </motion.div>
 
-          <div className="aspect-video bg-stone-200 rounded-2xl overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-stone-400 mx-auto mb-4" />
-                <p className="text-stone-600 font-medium">Lagos, Nigeria</p>
-                <p className="text-stone-500 text-sm mt-2">Interactive map coming soon</p>
-              </div>
-            </div>
-          </div>
+          <MapSectionLazy />
         </div>
       </section>
     </main>

@@ -1,219 +1,152 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
+/**
+ * KÓRADEON — opening experience.
+ *
+ * One quiet, cinematic gesture: a champagne rule draws itself across the
+ * dark, the official logo is revealed through a soft wipe, the wordmark
+ * settles beneath it — then the curtain lifts onto the hero, which has been
+ * warming underneath the whole time.
+ *
+ * • Plays once per session (sessionStorage), never on every visit.
+ * • Respects prefers-reduced-motion (brief fade only).
+ * • Skippable from 0.9s — the intro never traps the user.
+ * • The official /images/logo.png is used untouched: only its appearance
+ *   (clip, scale, opacity) is animated, never its geometry or colour.
+ */
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
+const HOLD_MS = 2700
+
 export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
-  const [isVisible, setIsVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
   const [showSkip, setShowSkip] = useState(false)
-  const [hasPlayed, setHasPlayed] = useState(false)
+  const finished = useRef(false)
+
+  const finish = () => {
+    if (finished.current) return
+    finished.current = true
+    try {
+      sessionStorage.setItem('koradeon-intro-played', 'true')
+    } catch {
+      /* private mode — intro simply plays once per mount */
+    }
+    setVisible(false)
+    onComplete()
+  }
 
   useEffect(() => {
-    // Check if intro has already played
-    const introPlayed = sessionStorage.getItem('koradeon-intro-played')
-    if (introPlayed) {
-      setHasPlayed(true)
+    let played = false
+    try {
+      played = sessionStorage.getItem('koradeon-intro-played') === 'true'
+    } catch {
+      played = false
+    }
+
+    // Already seen this session — release the page instantly.
+    if (played) {
+      finished.current = true
       onComplete()
       return
     }
 
-    // Show skip button after 2 seconds
-    const skipTimer = setTimeout(() => setShowSkip(true), 2000)
-
-    // Auto-complete after 7 seconds
-    const completeTimer = setTimeout(() => {
-      sessionStorage.setItem('koradeon-intro-played', 'true')
-      setHasPlayed(true)
-      onComplete()
-    }, 7000)
-
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setVisible(true)
+    const skipTimer = setTimeout(() => setShowSkip(true), reduced ? 0 : 900)
+    const doneTimer = setTimeout(finish, reduced ? 350 : HOLD_MS)
     return () => {
       clearTimeout(skipTimer)
-      clearTimeout(completeTimer)
+      clearTimeout(doneTimer)
     }
-  }, [onComplete])
-
-  const handleSkip = () => {
-    sessionStorage.setItem('koradeon-intro-played', 'true')
-    setIsVisible(false)
-    setTimeout(() => {
-      setHasPlayed(true)
-      onComplete()
-    }, 500)
-  }
-
-  const handleReplay = () => {
-    sessionStorage.removeItem('koradeon-intro-played')
-    setHasPlayed(false)
-    setIsVisible(true)
-    setShowSkip(false)
-    
-    setTimeout(() => {
-      setShowSkip(true)
-    }, 2000)
-
-    setTimeout(() => {
-      sessionStorage.setItem('koradeon-intro-played', 'true')
-      setHasPlayed(true)
-      onComplete()
-    }, 7000)
-  }
-
-  if (hasPlayed && !isVisible) {
-    return (
-      <button
-        onClick={handleReplay}
-        className="fixed bottom-6 right-6 z-50 p-3 bg-stone-900 text-ivory-50 rounded-full shadow-large hover:bg-stone-800 transition-colors duration-300"
-        aria-label="Replay intro animation"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
-      </button>
-    )
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {visible && (
         <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[100] bg-stone-900 flex items-center justify-center"
+          key="koradeon-intro"
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.9, ease: 'easeInOut' }}
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#12100D]"
+          role="presentation"
+          aria-hidden="true"
         >
-          {/* Blueprint Grid Background */}
-          <div className="absolute inset-0 blueprint-grid opacity-30" />
-
-          {/* Structural Guides */}
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute left-1/4 top-0 bottom-0 w-px bg-champagne-500/20"
-          />
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.5, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute right-1/4 top-0 bottom-0 w-px bg-champagne-500/20"
-          />
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, delay: 0.4, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute top-1/4 left-0 right-0 h-px bg-champagne-500/20"
-          />
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, delay: 0.6, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute bottom-1/4 left-0 right-0 h-px bg-champagne-500/20"
-          />
-
-          {/* Floating Dots */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {[0, 1, 2].map((index) => (
-              <motion.div
-                key={index}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ 
-                  scale: [0, 1, 1.2, 1],
-                  opacity: [0, 1, 1, 0.8]
-                }}
-                transition={{ 
-                  duration: 2,
-                  delay: 0.5 + index * 0.3,
-                  ease: [0.19, 1, 0.22, 1]
-                }}
-                className={`absolute w-3 h-3 rounded-full bg-champagne-500 ${
-                  index === 0 ? 'translate-x-[-40px]' : index === 2 ? 'translate-x-[40px]' : ''
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Logo Container */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ 
-              duration: 1.2,
-              delay: 1.5,
-              ease: [0.19, 1, 0.22, 1]
+          {/* Soft champagne aura behind the mark — barely there */}
+          <div
+            className="absolute left-1/2 top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70"
+            style={{
+              background:
+                'radial-gradient(closest-side, rgba(184,164,126,0.16), rgba(184,164,126,0.05) 55%, transparent 75%)',
             }}
-            className="relative z-10"
-          >
-            {/* Metallic Light Effect */}
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: '200%' }}
-              transition={{ 
-                duration: 2,
-                delay: 2.5,
-                ease: 'easeInOut'
-              }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-champagne-300/20 to-transparent"
-            />
+          />
 
-            {/* Logo */}
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64">
+          {/* The rule: draws itself first */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.05, ease: EASE, delay: 0.15 }}
+            className="absolute left-1/2 top-1/2 h-px w-[min(76vw,480px)] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#B8A47E]/70 to-transparent"
+          />
+
+          {/* Official logo — revealed by a wipe, gently settling to scale */}
+          <motion.div
+            initial={{ scale: 0.94, opacity: 0.9 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.6, ease: EASE, delay: 0.35 }}
+            className="relative z-10 h-36 w-36 sm:h-44 sm:w-44"
+          >
+            <motion.div
+              initial={{ clipPath: 'inset(0 100% 0 0)' }}
+              animate={{ clipPath: 'inset(0 0% 0 0)' }}
+              transition={{ duration: 1.15, ease: EASE, delay: 0.5 }}
+              className="absolute inset-0"
+            >
               <Image
                 src="/images/logo.png"
-                alt="KÓRADEON GROUP"
+                alt=""
                 fill
-                className="object-contain"
                 priority
+                sizes="176px"
+                className="object-contain"
               />
-            </div>
-
-            {/* Company Name */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.8,
-                delay: 3,
-                ease: [0.19, 1, 0.22, 1]
-              }}
-              className="text-center mt-8"
-            >
-              <h1 className="text-4xl sm:text-5xl font-serif text-ivory-50 tracking-tight mb-2">
-                KÓRADEON
-              </h1>
-              <p className="text-sm sm:text-base text-stone-400 tracking-widest uppercase">
-                Building Enduring Businesses
-              </p>
             </motion.div>
           </motion.div>
 
-          {/* Skip Button */}
-          {showSkip && (
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={handleSkip}
-              className="absolute bottom-8 right-8 px-6 py-3 text-sm text-stone-400 hover:text-ivory-50 transition-colors duration-300 z-20"
-            >
-              Skip Intro
-            </motion.button>
-          )}
+          {/* Wordmark settles beneath the mark */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 1.45 }}
+            className="absolute bottom-[22%] z-10 text-center"
+          >
+            <p className="font-serif text-xl tracking-[0.42em] text-[#F0EBE4] sm:text-2xl">
+              KÓRADEON
+            </p>
+            <p className="mt-3 text-[10px] uppercase tracking-[0.5em] text-[#8E8578]">
+              Group
+            </p>
+          </motion.div>
 
-          {/* Replay Button (shown after completion) */}
-          {hasPlayed && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={handleReplay}
-              className="absolute bottom-8 right-8 p-3 text-stone-400 hover:text-ivory-50 transition-colors duration-300 z-20"
-              aria-label="Replay intro"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </motion.button>
-          )}
+          {/* Skip — small, unobtrusive, always honest */}
+          <AnimatePresence>
+            {showSkip && (
+              <motion.button
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={finish}
+                className="absolute bottom-6 right-6 z-20 text-[11px] uppercase tracking-[0.25em] text-[#8E8578] transition-colors duration-300 hover:text-[#F0EBE4]"
+              >
+                Skip
+              </motion.button>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,77 +1,31 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Calendar, Clock, User } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { NEWS_ARTICLES, getFeaturedArticle } from '@/constants/news'
 
 
 
-const articles = [
-  {
-    id: 1,
-    category: 'Thought Leadership',
-    title: 'Building Enduring Institutions: A Long-Term Perspective on African Business',
-    excerpt: 'Why the most successful African companies of the future will be those built with a multi-generational vision.',
-    date: 'Coming Soon',
-    readTime: '8 min read',
-    author: 'KÓRADEON Leadership',
-    featured: true
-  },
-  {
-    id: 2,
-    category: 'Agriculture',
-    title: 'The Future of African Agriculture: Technology, Sustainability, and Food Security',
-    excerpt: 'How innovation is transforming agriculture across the continent and creating opportunities for sustainable growth.',
-    date: 'Coming Soon',
-    readTime: '6 min read',
-    author: 'Kavora Farms Team',
-    featured: false
-  },
-  {
-    id: 3,
-    category: 'Infrastructure',
-    title: 'Infrastructure as the Foundation of Economic Development in Africa',
-    excerpt: 'The critical role of infrastructure investment in unlocking Africa\'s economic potential and driving sustainable development.',
-    date: 'Coming Soon',
-    readTime: '7 min read',
-    author: 'Arcovia Infrastructure',
-    featured: false
-  },
-  {
-    id: 4,
-    category: 'Real Estate',
-    title: 'Urbanization and the Future of African Cities',
-    excerpt: 'How sustainable urban development can address Africa\'s housing challenges while creating vibrant, livable cities.',
-    date: 'Coming Soon',
-    readTime: '5 min read',
-    author: 'Rumara Estates',
-    featured: false
-  },
-  {
-    id: 5,
-    category: 'Hospitality',
-    title: 'Luxury Tourism in Africa: Balancing Growth with Sustainability',
-    excerpt: 'The opportunities and responsibilities of developing luxury hospitality in environmentally sensitive areas.',
-    date: 'Coming Soon',
-    readTime: '6 min read',
-    author: 'Ozura Resorts',
-    featured: false
-  },
-  {
-    id: 6,
-    category: 'Economics',
-    title: 'Africa\'s Economic Outlook: Opportunities in a Transforming Continent',
-    excerpt: 'An analysis of macroeconomic trends and investment opportunities across African markets.',
-    date: 'Coming Soon',
-    readTime: '10 min read',
-    author: 'KÓRADEON Research',
-    featured: true
-  }
-]
+const featured = getFeaturedArticle()
+const categories = ['All', ...Array.from(new Set(NEWS_ARTICLES.map((a) => a.category)))]
 
-const categories = ['All', 'Thought Leadership', 'Agriculture', 'Infrastructure', 'Real Estate', 'Hospitality', 'Economics']
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 
 export default function InsightsPage() {
+  const [activeCategory, setActiveCategory] = useState('All')
+  const visible =
+    activeCategory === 'All'
+      ? NEWS_ARTICLES
+      : NEWS_ARTICLES.filter((a) => a.category === activeCategory)
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -96,7 +50,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      {/* Featured Articles */}
+      {/* Featured Insight */}
       <section className="section-padding bg-ivory-50">
         <div className="container-custom">
           <motion.div
@@ -104,61 +58,66 @@ export default function InsightsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-12"
+            className="mb-10"
           >
-            <span className="label mb-4 block">Featured Insights</span>
+            <span className="label mb-4 block">Editor&rsquo;s selection</span>
+            <h2 className="heading-md text-stone-900">Featured insight</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {articles.filter(a => a.featured).map((article, index) => (
-              <motion.article
-                key={article.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500"
-              >
-                <div className="aspect-video bg-stone-100 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-stone-400 text-sm">Featured Image</span>
-                  </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <Link
+              href={`/newsroom/${featured.slug}`}
+              className="group grid overflow-hidden rounded-2xl border border-stone-200 bg-white transition-shadow duration-500 hover:shadow-large lg:grid-cols-2"
+            >
+              <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px]">
+                <Image
+                  src={featured.image}
+                  alt={featured.imageAlt}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 lg:p-12">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-champagne-700">
+                  {featured.category}
+                </span>
+                <h3 className="mt-4 font-serif text-2xl leading-snug text-stone-900 transition-colors duration-300 group-hover:text-champagne-700 lg:text-3xl">
+                  {featured.title}
+                </h3>
+                <p className="mt-4 line-clamp-3 text-base leading-relaxed text-stone-600">
+                  {featured.dek}
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-500">
+                  <span className="inline-flex items-center">
+                    <Calendar className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                    {formatDate(featured.date)}
+                  </span>
+                  <span className="inline-flex items-center">
+                    <Clock className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                    {featured.readTime}
+                  </span>
+                  <span className="inline-flex items-center">
+                    <User className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                    {featured.author}
+                  </span>
                 </div>
-                <div className="p-8">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="text-xs font-medium tracking-wider uppercase text-champagne-600">{article.category}</span>
-                  </div>
-                  <h2 className="text-2xl font-serif text-stone-900 mb-3 hover:text-champagne-600 transition-colors duration-300">
-                    {article.title}
-                  </h2>
-                  <p className="text-stone-700 mb-4">
-                    {article.excerpt}
-                  </p>
-                  <div className="flex items-center space-x-4 text-sm text-stone-500 mb-4">
-                    <span className="flex items-center">
-                      <Calendar className="w-3 h-3 mr-1" />
-                      {article.date}
-                    </span>
-                    <span className="flex items-center">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {article.readTime}
-                    </span>
-                    <span className="flex items-center">
-                      <User className="w-3 h-3 mr-1" />
-                      {article.author}
-                    </span>
-                  </div>
-                  <button
-                    disabled
-                    className="inline-flex items-center text-stone-900 font-medium opacity-50 cursor-not-allowed"
-                  >
-                    Read Article
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </button>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+                <span className="mt-8 inline-flex items-center gap-2 font-medium text-stone-900">
+                  Read the essay
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </div>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -170,8 +129,10 @@ export default function InsightsPage() {
               {categories.map((category) => (
                 <button
                   key={category}
+                  onClick={() => setActiveCategory(category)}
+                  aria-pressed={activeCategory === category}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    category === 'All'
+                    activeCategory === category
                       ? 'bg-stone-900 text-ivory-50'
                       : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                   }`}
@@ -187,49 +148,44 @@ export default function InsightsPage() {
       {/* Articles Grid */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.filter(a => !a.featured).map((article, index) => (
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+            {visible.map((article, index) => (
               <motion.article
-                key={article.id}
+                key={article.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="bg-ivory-50 border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500 group"
+                transition={{ duration: 0.7, delay: (index % 3) * 0.08 }}
+                className="group"
               >
-                <div className="aspect-video bg-stone-200 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-stone-400 text-sm">Article Image</span>
+                <Link href={`/newsroom/${article.slug}`} className="block">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-stone-200">
+                    <Image
+                      src={article.image}
+                      alt={article.imageAlt}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    />
                   </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="text-xs font-medium tracking-wider uppercase text-champagne-600">{article.category}</span>
-                  </div>
-                  <h3 className="text-xl font-serif text-stone-900 mb-3 group-hover:text-champagne-600 transition-colors duration-300">
-                    {article.title}
-                  </h3>
-                  <p className="text-stone-700 mb-4 line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <div className="flex items-center space-x-4 text-sm text-stone-500 mb-4">
-                    <span className="flex items-center">
-                      <Calendar className="w-3 h-3 mr-1" />
-                      {article.date}
+                  <div className="mt-5">
+                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-champagne-700">
+                      {article.category}
                     </span>
-                    <span className="flex items-center">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {article.readTime}
-                    </span>
+                    <h3 className="mt-2.5 font-serif text-xl leading-snug text-stone-900 transition-colors duration-300 group-hover:text-champagne-700">
+                      {article.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-stone-600">
+                      {article.excerpt}
+                    </p>
+                    <div className="mt-4 flex items-center gap-3 text-xs text-stone-500">
+                      <time dateTime={article.date}>{formatDate(article.date)}</time>
+                      <span aria-hidden="true">·</span>
+                      <span>{article.readTime}</span>
+                    </div>
                   </div>
-                  <button
-                    disabled
-                    className="inline-flex items-center text-stone-900 font-medium opacity-50 cursor-not-allowed"
-                  >
-                    Read More
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </button>
-                </div>
+                </Link>
               </motion.article>
             ))}
           </div>

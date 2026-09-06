@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Users, Target, Heart, Globe } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Users, Target, Heart, Globe } from 'lucide-react'
 import Link from 'next/link'
 
 
@@ -45,7 +45,7 @@ export default function AboutPage() {
             <h1 className="heading-lg text-stone-900 mb-8">
               Building institutions that transcend generations
             </h1>
-            <div className="space-y-6 body-lg text-stone-700">
+            <div className="mx-auto max-w-3xl space-y-6 body-lg text-stone-700">
               <p>
                 KÓRADEON GROUP is more than a holding company. We are architects of enduring institutions, builders of sustainable businesses, and stewards of long-term value creation.
               </p>
@@ -150,54 +150,41 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-14"
           >
             <span className="label mb-4 block">Leadership</span>
             <h2 className="heading-md text-stone-900 mb-4">Guided by experience</h2>
             <p className="body-lg max-w-2xl mx-auto text-stone-700">
-              Our leadership team brings decades of combined experience across industries, geographies, and functions.
+              KÓRADEON is led by operators and investors with decades of combined
+              experience across four continents.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Leadership Position 1',
-                role: 'Chief Executive Officer',
-                description: 'Coming Soon'
-              },
-              {
-                name: 'Leadership Position 2',
-                role: 'Chief Operating Officer',
-                description: 'Coming Soon'
-              },
-              {
-                name: 'Leadership Position 3',
-                role: 'Chief Financial Officer',
-                description: 'Coming Soon'
-              }
-            ].map((leader, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-medium transition-all duration-500"
-              >
-                <div className="aspect-square bg-stone-100 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-24 h-24 bg-stone-300 rounded-full" />
-                  </div>
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-serif text-stone-900 mb-1">{leader.name}</h3>
-                  <p className="text-champagne-600 font-medium mb-3">{leader.role}</p>
-                  <p className="text-stone-600 text-sm">{leader.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mx-auto max-w-3xl border border-stone-200 bg-white p-10 text-center shadow-soft sm:p-14"
+          >
+            <span className="mx-auto mb-8 block h-px w-14 bg-champagne-500" aria-hidden="true" />
+            <p className="font-serif text-xl leading-relaxed text-stone-900 sm:text-2xl">
+              The executive appointments of the Group are being finalised. Profiles of the
+              leadership team will be published here as they are announced.
+            </p>
+            <p className="mt-6 text-sm leading-relaxed text-stone-600">
+              Governance of the Group is exercised through its board and investment
+              committee, which oversee capital allocation, risk and standards across all
+              four businesses.
+            </p>
+            <Link
+              href="/newsroom"
+              className="mt-8 inline-flex items-center gap-2 font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
+            >
+              Announcements via the newsroom
+              <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

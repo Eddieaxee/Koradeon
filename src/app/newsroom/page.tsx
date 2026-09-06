@@ -3,42 +3,58 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { NewsroomGrid } from '@/components/NewsroomGrid'
+import { NEWS_ARTICLES, NEWS_CATEGORIES } from '@/constants/news'
 
 export default function NewsroomPage() {
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative pt-40 lg:pt-48 pb-20 overflow-hidden bg-ivory-50">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/news-corporate.svg"
-            alt=""
-            fill
-            unoptimized
-            sizes="100vw"
-            className="object-cover opacity-25"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-ivory-50/70 via-ivory-50/85 to-ivory-50" aria-hidden="true" />
-        </div>
+      {/* Editorial masthead */}
+      <section className="relative overflow-hidden border-b border-stone-200 bg-ivory-50 pt-40 pb-16 lg:pt-48 lg:pb-20">
+        <div
+          className="architectural-grid pointer-events-none absolute inset-0 opacity-60"
+          aria-hidden="true"
+        />
         <div className="relative container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
           >
-            <span className="label mb-6 block">Newsroom</span>
-            <h1 className="heading-lg text-stone-900 mb-8">Latest updates and insights</h1>
-            <div className="space-y-6 body-lg text-stone-700">
-              <p>
-                Stay informed about KÓRADEON GROUP&apos;s latest developments, business updates, and thought
-                leadership. Our newsroom provides comprehensive coverage of our journey toward building
-                enduring institutions.
+            <div className="max-w-2xl">
+              <p className="label mb-6 flex items-center gap-4">
+                <span className="h-px w-12 bg-champagne-600" aria-hidden="true" />
+                The KÓRADEON Newsroom
+              </p>
+              <h1 className="text-balance font-serif text-4xl leading-[1.1] tracking-tight text-stone-900 sm:text-5xl">
+                Reporting on businesses built to last
+              </h1>
+              <p className="body-lg mt-6 max-w-xl text-stone-600">
+                Announcements, milestones and perspective from across the Group — published
+                with the same discipline we bring to the businesses themselves.
               </p>
             </div>
+            <dl className="flex gap-10 border-t border-stone-200 pt-6 lg:border-0 lg:pt-0">
+              <div>
+                <dd className="font-serif text-3xl text-stone-900">{NEWS_ARTICLES.length}</dd>
+                <dt className="mt-1 text-xs uppercase tracking-[0.18em] text-stone-500">
+                  Stories
+                </dt>
+              </div>
+              <div>
+                <dd className="font-serif text-3xl text-stone-900">{NEWS_CATEGORIES.length}</dd>
+                <dt className="mt-1 text-xs uppercase tracking-[0.18em] text-stone-500">
+                  Desks
+                </dt>
+              </div>
+              <div>
+                <dd className="font-serif text-3xl text-stone-900">4</dd>
+                <dt className="mt-1 text-xs uppercase tracking-[0.18em] text-stone-500">
+                  Pillars
+                </dt>
+              </div>
+            </dl>
           </motion.div>
         </div>
       </section>

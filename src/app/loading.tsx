@@ -1,30 +1,19 @@
 export default function Loading() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-ivory-50">
-      <div className="text-center">
-        {/* Logo */}
-        <div className="mb-8 animate-fade-in">
-          <div className="w-20 h-20 mx-auto bg-stone-900 rounded-2xl flex items-center justify-center">
-            <span className="text-4xl font-serif text-ivory-50">K</span>
-          </div>
-        </div>
-
-        {/* Loading Text */}
-        <div className="animate-fade-in-up delay-200">
-          <h2 className="text-xl font-serif text-stone-900 mb-2">KÓRADEON</h2>
-          <p className="text-sm text-stone-600 tracking-widest uppercase">Loading...</p>
-        </div>
-
-        {/* Animated Dots */}
-        <div className="flex items-center justify-center space-x-2 mt-8 animate-fade-in delay-400">
-          {[0, 1, 2].map((index) => (
-            <div
-              key={index}
-              style={{ animation: `float 1s ease-in-out ${index * 0.2}s infinite` }}
-              className="w-2 h-2 bg-champagne-500 rounded-full"
-            />
-          ))}
-        </div>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#12100D]">
+      <div className="relative h-20 w-20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/logo.png"
+          alt="KÓRADEON GROUP"
+          className="h-full w-full object-contain opacity-95"
+        />
+      </div>
+      <p className="mt-8 font-serif text-lg tracking-[0.42em] text-[#F0EBE4]">KÓRADEON</p>
+      <p className="mt-3 text-[10px] uppercase tracking-[0.5em] text-[#8E8578]">Group</p>
+      {/* Quiet progress rule */}
+      <div className="mt-10 h-px w-40 overflow-hidden bg-white/10">
+        <div className="kd-load-bar h-full w-1/3 bg-[#B8A47E]" />
       </div>
     </main>
   )

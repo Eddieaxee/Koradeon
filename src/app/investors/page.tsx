@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Download, FileText, TrendingUp, Shield } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -11,26 +13,30 @@ const resources = [
     icon: <FileText className="w-6 h-6" />,
     title: 'Annual Reports',
     description: 'Comprehensive reports on our financial performance, strategic progress, and corporate governance.',
-    status: 'Coming Soon'
+    meta: 'Inaugural edition — FY2024',
+    action: { label: 'Request a copy', href: 'mailto:investors@koradeon.com?subject=Annual%20Report%20Request' },
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
     title: 'Financial Highlights',
-    description: 'Key financial metrics and performance indicators across our businesses.',
-    status: 'Coming Soon'
+    description: 'Key metrics and performance indicators across the Group’s four foundational businesses.',
+    meta: 'Updated quarterly',
+    action: { label: 'View the pillars', href: '/businesses' },
   },
   {
     icon: <Shield className="w-6 h-6" />,
     title: 'Corporate Governance',
     description: 'Our governance framework, board structure, and commitment to transparency.',
-    status: 'Available'
+    meta: 'Framework published',
+    action: { label: 'Read our standards', href: '#governance' },
   },
   {
     icon: <Download className="w-6 h-6" />,
     title: 'Investor Presentations',
     description: 'Strategic presentations and materials for current and prospective investors.',
-    status: 'Coming Soon'
-  }
+    meta: 'Shared on request',
+    action: { label: 'Contact IR', href: 'mailto:investors@koradeon.com?subject=Investor%20Presentation%20Request' },
+  },
 ]
 
 export default function InvestorsPage() {
@@ -151,14 +157,27 @@ export default function InvestorsPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-serif text-stone-900 mb-2">{resource.title}</h3>
-                    <p className="text-stone-700 mb-4">{resource.description}</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase ${
-                      resource.status === 'Available'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-stone-200 text-stone-600'
-                    }`}>
-                      {resource.status}
-                    </span>
+                    <p className="text-stone-700 mb-3">{resource.description}</p>
+                    <p className="mb-4 text-[11px] uppercase tracking-[0.18em] text-stone-500">
+                      {resource.meta}
+                    </p>
+                    {resource.action.href.startsWith('/') ? (
+                      <Link
+                        href={resource.action.href}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
+                      >
+                        {resource.action.label}
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={resource.action.href}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
+                      >
+                        {resource.action.label}
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -168,7 +187,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* Governance */}
-      <section className="section-padding bg-stone-50">
+      <section id="governance" className="section-padding bg-stone-50">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -224,15 +243,22 @@ export default function InvestorsPage() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="aspect-video bg-stone-100 rounded-2xl overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-20 h-20 mx-auto mb-4 bg-stone-900 rounded-xl flex items-center justify-center">
-                      <Shield className="w-10 h-10 text-champagne-500" />
-                    </div>
-                    <p className="text-stone-600 font-medium">Corporate Governance</p>
-                    <p className="text-stone-500 text-sm mt-2">Excellence in stewardship</p>
-                  </div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-stone-200 shadow-medium">
+                <Image
+                  src={IMAGES.boardroom}
+                  alt="KÓRADEON boardroom — independent oversight and transparent governance"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent p-6">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-stone-300">
+                    Stewardship
+                  </p>
+                  <p className="mt-1 font-serif text-lg text-ivory-50">
+                    Independent oversight, transparent reporting
+                  </p>
                 </div>
               </div>
             </motion.div>

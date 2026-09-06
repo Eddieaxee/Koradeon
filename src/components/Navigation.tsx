@@ -2,20 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, Linkedin, Instagram, Twitter, Youtube, Facebook, Music } from 'lucide-react'
+import { Menu, X, Search } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAVIGATION, COMPANY_INFO } from '@/constants/brand'
 import { useUI } from '@/contexts/UIProvider'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Logo } from '@/components/Logo'
+import { LinkedinIcon, TiktokIcon, InstagramIcon, XIcon, YoutubeIcon, FacebookIcon } from '@/components/SocialIcons'
 const socialIcons: Record<string, React.ReactNode> = {
-  LinkedIn: <Linkedin className="w-4 h-4" />,
-  Instagram: <Instagram className="w-4 h-4" />,
-  Twitter: <Twitter className="w-4 h-4" />,
-  Youtube: <Youtube className="w-4 h-4" />,
-  Facebook: <Facebook className="w-4 h-4" />,
-  Music: <Music className="w-4 h-4" />
+  linkedin: <LinkedinIcon className="w-5 h-5" />,
+  instagram: <InstagramIcon className="w-5 h-5" />,
+  twitter: <XIcon className="w-5 h-5" />,
+  youtube: <YoutubeIcon className="w-5 h-5" />,
+  facebook: <FacebookIcon className="w-5 h-5" />,
+  tiktok: <TiktokIcon className="w-5 h-5" />
 }
 
 export function Navigation() {
@@ -173,7 +174,7 @@ export function Navigation() {
                     className="text-stone-600 hover:text-champagne-700 transition-colors duration-300"
                     aria-label={platform}
                   >
-                    {socialIcons[platform.charAt(0).toUpperCase() + platform.slice(1)] || socialIcons[platform]}
+                    {socialIcons[platform]}
                   </a>
                 ))}
               </div>

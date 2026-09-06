@@ -147,32 +147,33 @@
 
   /* Section Spacing */
   .section-padding {
-    @apply py-24 sm:py-32 lg:py-40;
+    @apply py-20 sm:py-28 lg:py-36;
   }
 
   .section-padding-sm {
-    @apply py-16 sm:py-24 lg:py-32;
+    @apply py-14 sm:py-20 lg:py-28;
   }
 
-  /* Typography Scale */
+  /* Typography Scale — editorial, restrained. Never lets a heading compete
+     for attention merely because space is available. */
   .heading-xl {
-    @apply text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-serif tracking-tight leading-none;
+    @apply text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif tracking-tight leading-[1.05];
   }
 
   .heading-lg {
-    @apply text-5xl sm:text-6xl lg:text-7xl font-serif tracking-tight leading-none;
+    @apply text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.05];
   }
 
   .heading-md {
-    @apply text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-tight;
-  }
-
-  .heading-sm {
     @apply text-3xl sm:text-4xl lg:text-5xl font-serif tracking-tight leading-tight;
   }
 
+  .heading-sm {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-serif tracking-tight leading-tight;
+  }
+
   .heading-xs {
-    @apply text-2xl sm:text-3xl font-serif tracking-tight leading-tight;
+    @apply text-xl sm:text-2xl font-serif tracking-tight leading-tight;
   }
 
   .body-lg {
@@ -188,11 +189,21 @@
   }
 
   .label {
-    @apply text-sm font-medium tracking-wide uppercase text-stone-600;
+    @apply text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-stone-600;
   }
 
   .label-sm {
-    @apply text-xs font-medium tracking-wider uppercase text-stone-600;
+    @apply text-[11px] font-medium tracking-[0.18em] uppercase text-stone-600;
+  }
+
+  /* Editorial eyebrow — small tracked label with a short rule. */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold tracking-[0.22em] uppercase text-champagne-700;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply inline-block w-8 h-px bg-champagne-600;
   }
 
   /* Button System */
@@ -353,8 +364,179 @@
 }
 
 /* ============================================
+/* ============================================
+   EDITORIAL TYPOGRAPHY (article reading)
+   ============================================ */
+  .prose-editorial {
+    @apply text-stone-800;
+    font-size: 1.075rem;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+  }
+
+  .prose-editorial p {
+    margin-bottom: 1.75rem;
+  }
+
+  .prose-editorial strong {
+    @apply font-semibold text-stone-900;
+  }
+
+  .prose-editorial h2 {
+    @apply font-serif text-2xl sm:text-3xl text-stone-900 tracking-tight leading-snug;
+    margin: 3rem 0 1.25rem;
+  }
+
+  .prose-editorial h3 {
+    @apply font-serif text-xl text-stone-900 tracking-tight leading-snug;
+    margin: 2.5rem 0 1rem;
+  }
+
+  .prose-editorial ul {
+    @apply list-disc space-y-2 pl-6 my-6 text-stone-800;
+  }
+
+  .drop-cap::first-letter {
+    @apply float-left font-serif text-champagne-700;
+    font-size: 3.4em;
+    line-height: 0.8;
+    padding: 0.08em 0.14em 0 0;
+  }
+
+  .pull-quote {
+    @apply border-l-2 border-champagne-600 pl-6 sm:pl-10 my-12 font-serif text-2xl lg:text-3xl leading-snug text-stone-900 tracking-tight;
+  }
+
+  .pull-quote::before {
+    content: '“';
+    @apply block text-champagne-500 text-5xl leading-none mb-2;
+  }
+
+  .article-lede {
+    @apply font-serif text-xl sm:text-2xl leading-relaxed text-stone-900;
+  }
+
+/* ============================================
+   MAP (Leaflet) - KORADEON branded treatment
+   ============================================ */
+  .map-shell {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-shell .leaflet-container {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    background: #141210;
+  }
+
+  .map-attribution {
+    @apply text-[10px] !bg-transparent !text-stone-500;
+  }
+
+  .map-attribution a {
+    @apply !text-stone-400;
+  }
+
+  .kd-marker {
+    @apply relative block w-4 h-4 rounded-full border-2 border-ivory-50 bg-champagne-600;
+    box-shadow: 0 0 0 4px rgba(184, 164, 126, 0.25);
+    transition: transform 0.25s ease;
+  }
+
+  .kd-marker-shell {
+    cursor: pointer;
+  }
+
+  .kd-marker-shell:hover .kd-marker {
+    transform: scale(1.4);
+  }
+
+  .kd-marker.is-hot {
+    @apply bg-[#C9A85C];
+  }
+
+  .kd-marker::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 9999px;
+    border: 1px solid rgba(212, 194, 158, 0.6);
+    animation: markerPulse 2.4s ease-out infinite;
+  }
+
+  .leaflet-popup-content-wrapper {
+    @apply rounded-xl shadow-large !important;
+  }
+
+  .leaflet-popup-content {
+    @apply m-0 !important;
+  }
+
+  .leaflet-control-zoom a {
+    @apply !rounded-md !border !border-stone-700 !bg-[#1F1B18] !text-ivory-50 !leading-7 hover:!bg-[#2A2723];
+  }
+
+  .leaflet-control-zoom {
+    @apply shadow-medium !border-0 overflow-hidden rounded-lg;
+  }
+
+/* ============================================
+   INTRO / LOGO MOTION
+   ============================================ */
+  @keyframes logoBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+
+  .animate-logo-breathe {
+    animation: logoBreathe 3.2s ease-in-out infinite;
+  }
+
+  @keyframes markerPulse {
+    0% { transform: scale(0.6); opacity: 0.9; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  @keyframes introShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .intro-shimmer {
+    background: linear-gradient(90deg, transparent 30%, rgba(212, 194, 158, 0.35) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: introShimmer 2.2s linear infinite;
+  }
+
+/* ============================================
+   RESPONSIVE SAFETY
+   ============================================ */
+  html, body {
+    overflow-x: clip;
+  }
+
+  .h-screen-safe {
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .min-h-screen-safe {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  @media (max-width: 640px) {
+    .prose-editorial {
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+  }
+
+/* ============================================
    ANIMATION KEYFRAMES
    ============================================ */
+
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -494,8 +676,17 @@
   }
 }
 
-/* =============================================
-===   DARK MODE   ====
+/* Loading screen — quiet champagne progress rule */
+.kd-load-bar {
+  animation: kdLoad 1.4s ease-in-out infinite;
+}
+@keyframes kdLoad {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
+
+/* ============================================
+   DARK MODE   ====
    ============================================ */
 /* Semantic dark-mode overrides — next-themes adds .dark to <html> */
 html.dark body {
