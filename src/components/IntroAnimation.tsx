@@ -1,8 +1,8 @@
-﻿'use client'
+﻿"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 /**
  * KÃ“RADEON â€” opening experience.
@@ -19,32 +19,32 @@ import Image from 'next/image'
  *   (clip, scale, opacity) is animated, never its geometry or colour.
  */
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const HOLD_MS = 2200
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const HOLD_MS = 2200;
 
 export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
-  const [visible, setVisible] = useState(false)
-  const [showSkip, setShowSkip] = useState(false)
-  const finished = useRef(false)
+  const [visible, setVisible] = useState(false);
+  const [showSkip, setShowSkip] = useState(false);
+  const finished = useRef(false);
 
   const finish = () => {
-    if (finished.current) return
-    finished.current = true
-    setVisible(false)
-    onComplete()
-  }
+    if (finished.current) return;
+    finished.current = true;
+    setVisible(false);
+    onComplete();
+  };
 
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    setVisible(true)
-    const skipTimer = setTimeout(() => setShowSkip(true), reduced ? 0 : 800)
-    const doneTimer = setTimeout(finish, reduced ? 300 : HOLD_MS)
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setVisible(true);
+    const skipTimer = setTimeout(() => setShowSkip(true), reduced ? 0 : 800);
+    const doneTimer = setTimeout(finish, reduced ? 300 : HOLD_MS);
     return () => {
-      clearTimeout(skipTimer)
-      clearTimeout(doneTimer)
-    }
+      clearTimeout(skipTimer);
+      clearTimeout(doneTimer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <AnimatePresence>
@@ -52,7 +52,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
         <motion.div
           key="koradeon-intro"
           exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#0E0C0A]"
           role="presentation"
           aria-hidden="true"
@@ -65,7 +65,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             className="absolute left-1/2 top-1/2 h-[55vmin] w-[55vmin] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               background:
-                'radial-gradient(closest-side, rgba(184,164,126,0.18), rgba(184,164,126,0.04) 55%, transparent 75%)',
+                "radial-gradient(closest-side, rgba(184,164,126,0.18), rgba(184,164,126,0.04) 55%, transparent 75%)",
             }}
           />
 
@@ -77,8 +77,8 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             className="relative z-10 h-32 w-32 sm:h-40 sm:w-40"
           >
             <motion.div
-              initial={{ clipPath: 'inset(0 100% 0 0)' }}
-              animate={{ clipPath: 'inset(0 0% 0 0)' }}
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              animate={{ clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 1.0, ease: EASE, delay: 0.45 }}
               className="absolute inset-0"
             >
@@ -89,7 +89,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
                 priority
                 sizes="160px"
                 className="object-contain animate-logo-bright-pulse"
-                style={{ animationDelay: '1.55s' }}
+                style={{ animationDelay: "1.55s" }}
               />
             </motion.div>
           </motion.div>
@@ -102,7 +102,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             className="absolute bottom-[20%] z-10 text-center"
           >
             <p className="font-serif text-xl tracking-[0.42em] text-[#F0EBE4] sm:text-2xl">
-              KÃ“RADEON
+              KÓRADEON
             </p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -132,5 +132,5 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }
