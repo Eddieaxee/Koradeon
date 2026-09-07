@@ -196,7 +196,7 @@ export function MapSection({
             center={[6.5, 18]}
             zoom={3}
             minZoom={2}
-            maxZoom={12}
+            maxZoom={19}
             zoomControl={true}
             scrollWheelZoom={false}
             maxBounds={[[-85, -200], [85, 200]]}

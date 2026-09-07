@@ -1,21 +1,21 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
 /**
- * KÓRADEON — opening experience.
+ * KÃ“RADEON â€” opening experience.
  *
  * A quiet, cinematic sequence: the dark holds still, a single champagne
  * line draws itself, the official logo is revealed through a soft wipe,
- * the wordmark settles — then the whole composition recedes, revealing
+ * the wordmark settles â€” then the whole composition recedes, revealing
  * the page that has been waiting underneath.
  *
- * • Plays once per session (sessionStorage), never on every visit.
- * • Respects prefers-reduced-motion (brief fade only).
- * • Skippable from 0.8s — the intro never traps the user.
- * • The official /images/logo.png is used untouched: only its appearance
+ * â€¢ Plays on each page load â€” quick, skippable from 0.8s â€” the intro never traps the user.
+ * â€¢ Respects prefers-reduced-motion (brief fade only).
+ * â€¢ Skippable from 0.8s â€” the intro never traps the user.
+ * â€¢ The official /images/logo.png is used untouched: only its appearance
  *   (clip, scale, opacity) is animated, never its geometry or colour.
  */
 
@@ -30,30 +30,11 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   const finish = () => {
     if (finished.current) return
     finished.current = true
-    try {
-      sessionStorage.setItem('koradeon-intro-played', 'true')
-    } catch {
-      /* private mode — intro simply plays once per mount */
-    }
     setVisible(false)
     onComplete()
   }
 
   useEffect(() => {
-    let played = false
-    try {
-      played = sessionStorage.getItem('koradeon-intro-played') === 'true'
-    } catch {
-      played = false
-    }
-
-    // Already seen this session — release the page instantly.
-    if (played) {
-      finished.current = true
-      onComplete()
-      return
-    }
-
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     setVisible(true)
     const skipTimer = setTimeout(() => setShowSkip(true), reduced ? 0 : 800)
@@ -88,7 +69,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             }}
           />
 
-          {/* Official logo — revealed by a wipe, gently settling to scale */}
+          {/* Official logo â€” revealed by a wipe, gently settling to scale */}
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -121,7 +102,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             className="absolute bottom-[20%] z-10 text-center"
           >
             <p className="font-serif text-xl tracking-[0.42em] text-[#F0EBE4] sm:text-2xl">
-              KÓRADEON
+              KÃ“RADEON
             </p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -133,7 +114,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             </motion.p>
           </motion.div>
 
-          {/* Skip — small, unobtrusive */}
+          {/* Skip â€” small, unobtrusive */}
           <AnimatePresence>
             {showSkip && (
               <motion.button
