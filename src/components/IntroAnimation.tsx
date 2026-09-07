@@ -20,7 +20,7 @@ import Image from 'next/image'
  */
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const HOLD_MS = 2400
+const HOLD_MS = 2200
 
 export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   const [visible, setVisible] = useState(false)
@@ -71,7 +71,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
         <motion.div
           key="koradeon-intro"
           exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          transition={{ duration: 0.6, ease: 'easeInOut' }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#0E0C0A]"
           role="presentation"
           aria-hidden="true"
@@ -86,14 +86,6 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
               background:
                 'radial-gradient(closest-side, rgba(184,164,126,0.18), rgba(184,164,126,0.04) 55%, transparent 75%)',
             }}
-          />
-
-          {/* The rule: draws itself first */}
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
-            className="absolute left-1/2 top-1/2 h-px w-[min(70vw,420px)] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#B8A47E]/60 to-transparent"
           />
 
           {/* Official logo — revealed by a wipe, gently settling to scale */}
@@ -115,7 +107,8 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
                 fill
                 priority
                 sizes="160px"
-                className="object-contain"
+                className="object-contain animate-logo-bright-pulse"
+                style={{ animationDelay: '1.55s' }}
               />
             </motion.div>
           </motion.div>

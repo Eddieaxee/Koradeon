@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { IMAGES } from '@/constants/assets'
 import { DocumentRequestModal } from '@/features/investors/DocumentRequestModal'
+import { LEADERSHIP } from '@/constants/leadership'
 
 
 
@@ -272,6 +273,51 @@ export default function InvestorsPage() {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Group Leadership */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <span className="label mb-4 block">Group Leadership</span>
+            <h2 className="heading-md text-stone-900 mb-4">The people behind the stewardship</h2>
+            <p className="body-md max-w-2xl mx-auto text-stone-600">
+              Our executive leadership brings together operators and investors with decades of combined experience across four continents.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {LEADERSHIP.map((person, index) => (
+              <motion.div
+                key={person.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: index * 0.12 }}
+                className="flex flex-col items-center rounded-2xl border border-stone-200 bg-white p-8 text-center shadow-soft"
+              >
+                <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-full ring-2 ring-champagne-500/60 ring-offset-4 ring-offset-white">
+                  <Image
+                    src={person.image}
+                    alt={`Portrait of ${person.name}, ${person.role}`}
+                    fill
+                    unoptimized
+                    sizes="128px"
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-serif text-lg text-stone-900">{person.name}</h3>
+                <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-champagne-600">{person.role}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

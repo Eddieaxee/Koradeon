@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Users, Target, Heart, Globe } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { IMAGES } from '@/constants/assets'
+import { LEADERSHIP } from '@/constants/leadership'
 
 
 
@@ -31,26 +31,7 @@ const values = [
   }
 ]
 
-const leadership = [
-  {
-    name: 'Kwame Mensah',
-    role: 'Chief Executive Officer',
-    image: IMAGES.execCeo,
-    bio: 'Kwame oversees the Group\u2019s vision, capital strategy and long-term stewardship across all four businesses, with decades of operating and investment experience across Africa and Europe.',
-  },
-  {
-    name: 'Amara Diallo',
-    role: 'Chief Financial Officer',
-    image: IMAGES.execCfo,
-    bio: 'Amara leads the Group\u2019s financial strategy, capital allocation and investor relations, ensuring discipline, transparency and sustainable value creation across the portfolio.',
-  },
-  {
-    name: 'Thabo Ndlovu',
-    role: 'Chief Investment Officer',
-    image: IMAGES.execCio,
-    bio: 'Thabo heads the Group\u2019s investment committee, sourcing and structuring opportunities across agriculture, hospitality, real estate and infrastructure for the long term.',
-  },
-]
+
 
 export default function AboutPage() {
   return (
@@ -184,7 +165,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {leadership.map((person, index) => (
+            {LEADERSHIP.map((person, index) => (
               <motion.div
                 key={person.name}
                 initial={{ opacity: 0, y: 24 }}

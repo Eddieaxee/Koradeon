@@ -97,7 +97,7 @@ export default function Home() {
             <HeroSculpture />
           </div>
 
-          <div className="relative z-10 container-custom pb-28 pt-28">
+          <div className="relative z-30 container-custom pb-28 pt-28">
             <div className="max-w-3xl relative">
               {/* Subtle backdrop for readability over 3D scene */}
               <div className="absolute -inset-8 -z-10 rounded-2xl bg-ivory-50/40 dark:bg-stone-900/40 backdrop-blur-sm" aria-hidden="true" />

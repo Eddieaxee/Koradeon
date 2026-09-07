@@ -23,7 +23,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/40 to-stone-900/20" />
         <div className="absolute inset-0 flex items-end">
           <div className="container-custom pb-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <Link href="/portfolio" className="inline-flex items-center gap-2 text-stone-300 hover:text-ivory-50 mb-6 transition-colors">
                 <ArrowLeft className="w-4 h-4" /> Back to Portfolio
               </Link>
