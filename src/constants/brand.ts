@@ -145,7 +145,7 @@ export const ENQUIRY_TYPES = [
 export const FOOTER_NAVIGATION = {
   businesses: BUSINESSES.map(b => ({
     name: b.name,
-    href: `/businesses#${b.id}`
+    href: `/businesses/${b.id}`
   })),
   company: [
     { name: 'About', href: '/about' },

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -19,7 +20,7 @@ const businesses = [
     mission: 'To revolutionize African agriculture through technology and sustainable practices, ensuring food security for generations to come.',
     vision: 'To become Africa\'s leading integrated agribusiness, transforming the continent\'s agricultural landscape while creating sustainable livelihoods.',
     status: 'Launching Soon',
-    image: '/images/business-kavora.svg'
+    image: IMAGES.kavora
   },
   {
     id: 'ozura',
@@ -32,7 +33,7 @@ const businesses = [
     mission: 'To create extraordinary hospitality experiences that celebrate Africa\'s natural beauty while promoting sustainable tourism.',
     vision: 'To establish Africa\'s most prestigious hospitality brand, offering world-class experiences that showcase the continent\'s unique beauty and culture.',
     status: 'Launching Soon',
-    image: '/images/business-ozura.svg'
+    image: IMAGES.ozuraBeach
   },
   {
     id: 'rumara',
@@ -46,7 +47,7 @@ const businesses = [
     vision: 'To become Africa\'s most respected real estate development company, creating iconic properties and communities that stand the test of time.',
     status: 'Visit Website',
     website: 'https://realty-x.vercel.app',
-    image: '/images/business-rumara.svg'
+    image: IMAGES.buildingModern
   },
   {
     id: 'arcovia',
@@ -59,7 +60,7 @@ const businesses = [
     mission: 'To build critical infrastructure that powers Africa\'s growth, using innovative engineering and sustainable practices.',
     vision: 'To be the leading infrastructure development company in Africa, building the foundations for the continent\'s economic transformation.',
     status: 'Launching Soon',
-    image: '/images/business-arcovia.svg'
+    image: IMAGES.arcoviaBridge
   }
 ]
 
@@ -197,12 +198,12 @@ export default function BusinessesPage() {
                           {business.status}
                         </button>
                       )}
-                      <a
-                        href={`#${business.id}`}
+                      <Link
+                        href={`/businesses/${business.id}`}
                         className={`inline-flex items-center justify-center px-8 py-4 border-2 ${colors.border} ${colors.text} font-medium tracking-wide rounded-lg transition-all duration-300 ${colors.hover}`}>
                         Learn More
                         <ArrowRight className="w-5 h-5 ml-2" />
-                      </a>
+                      </Link>
                     </div>
                   </motion.div>
 

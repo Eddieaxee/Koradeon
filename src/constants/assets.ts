@@ -45,6 +45,11 @@ export const IMAGES = {
   office: px(1181406),
   meetingBoard: px(3184418),
 
+  /* Executives & leadership portraits */
+  execCeo: px(415829),
+  execCfo: px(2379004),
+  execCio: px(774909),
+
   /* Editorial / news */
   corporateSkyline: px(933054),
   economy: px(460716),

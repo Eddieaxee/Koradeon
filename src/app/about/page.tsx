@@ -2,7 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Users, Target, Heart, Globe } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { IMAGES } from '@/constants/assets'
 
 
 
@@ -27,6 +29,27 @@ const values = [
     title: 'Institutional Impact',
     description: 'We measure success by the positive impact we create for employees, communities, and future generations.'
   }
+]
+
+const leadership = [
+  {
+    name: 'Kwame Mensah',
+    role: 'Chief Executive Officer',
+    image: IMAGES.execCeo,
+    bio: 'Kwame oversees the Group\u2019s vision, capital strategy and long-term stewardship across all four businesses, with decades of operating and investment experience across Africa and Europe.',
+  },
+  {
+    name: 'Amara Diallo',
+    role: 'Chief Financial Officer',
+    image: IMAGES.execCfo,
+    bio: 'Amara leads the Group\u2019s financial strategy, capital allocation and investor relations, ensuring discipline, transparency and sustainable value creation across the portfolio.',
+  },
+  {
+    name: 'Thabo Ndlovu',
+    role: 'Chief Investment Officer',
+    image: IMAGES.execCio,
+    bio: 'Thabo heads the Group\u2019s investment committee, sourcing and structuring opportunities across agriculture, hospitality, real estate and infrastructure for the long term.',
+  },
 ]
 
 export default function AboutPage() {
@@ -160,22 +183,46 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {leadership.map((person, index) => (
+              <motion.div
+                key={person.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                className="group flex flex-col items-center rounded-2xl border border-stone-200 bg-white p-8 text-center shadow-soft transition-shadow duration-300 hover:shadow-md"
+              >
+                <div className="relative mb-6 h-40 w-40 overflow-hidden rounded-full ring-2 ring-champagne-500/60 ring-offset-4 ring-offset-white">
+                  <Image
+                    src={person.image}
+                    alt={`Portrait of ${person.name}, ${person.role}`}
+                    fill
+                    unoptimized
+                    sizes="160px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="font-serif text-xl text-stone-900">{person.name}</h3>
+                <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-champagne-600">{person.role}</p>
+                <p className="mt-4 text-sm leading-relaxed text-stone-600">{person.bio}</p>
+              </motion.div>
+            ))}
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="mx-auto max-w-3xl border border-stone-200 bg-white p-10 text-center shadow-soft sm:p-14"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mx-auto mt-14 max-w-3xl border border-stone-200 bg-white p-10 text-center shadow-soft sm:p-12"
           >
             <span className="mx-auto mb-8 block h-px w-14 bg-champagne-500" aria-hidden="true" />
-            <p className="font-serif text-xl leading-relaxed text-stone-900 sm:text-2xl">
-              The executive appointments of the Group are being finalised. Profiles of the
-              leadership team will be published here as they are announced.
-            </p>
-            <p className="mt-6 text-sm leading-relaxed text-stone-600">
+            <p className="text-sm leading-relaxed text-stone-600">
               Governance of the Group is exercised through its board and investment
               committee, which oversee capital allocation, risk and standards across all
-              four businesses.
+              four businesses. Executive profiles will continue to be added as the
+              leadership team grows?
             </p>
             <Link
               href="/newsroom"

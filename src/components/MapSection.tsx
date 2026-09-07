@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -121,15 +121,16 @@ export function MapSection({
   const [active, setActive] = useState<MapLocation | null>(LOCATIONS[0])
   const [fly, setFly] = useState<{ center: [number, number]; zoom: number } | null>(null)
   const [mounted, setMounted] = useState(false)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   useEffect(() => setMounted(true), [])
 
-  if (!mounted) return null
-
-  const select = (loc: MapLocation) => {
+  const select = useCallback((loc: MapLocation) => {
     setActive(loc)
     setFly({ center: [loc.lat, loc.lng], zoom: 6 })
-  }
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <div className={`map-shell rounded-2xl border ${dark ? 'border-stone-800 bg-stone-900' : 'border-stone-200 bg-stone-100'} ${className}`}>
@@ -149,6 +150,8 @@ export function MapSection({
               <li key={loc.id}>
                 <button
                   onClick={() => select(loc)}
+                  onMouseEnter={() => setHoveredId(loc.id)}
+                  onMouseLeave={() => setHoveredId(null)}
                   aria-pressed={active?.id === loc.id}
                   className={`w-full text-left flex items-center gap-3 rounded-lg px-3 py-3 transition-all duration-300 group ${
                     active?.id === loc.id
@@ -161,7 +164,13 @@ export function MapSection({
                   }`}
                 >
                   <span
-                    className={`grid place-items-center w-8 h-8 rounded-full shrink-0 ${active?.id === loc.id ? 'bg-champagne-300 text-stone-900' : dark ? 'bg-white/10 text-stone-400' : 'bg-stone-200 text-stone-700'} transition-colors duration-300`}
+                    className={`grid place-items-center w-8 h-8 rounded-full shrink-0 transition-all duration-300 ${
+                      active?.id === loc.id
+                        ? 'bg-champagne-300 text-stone-900'
+                        : hoveredId === loc.id
+                          ? dark ? 'bg-champagne-500/30 text-champagne-300' : 'bg-champagne-200 text-champagne-700'
+                          : dark ? 'bg-white/10 text-stone-400' : 'bg-stone-200 text-stone-700'
+                    }`}
                   >
                     <MapPin className="w-4 h-4" aria-hidden="true" />
                   </span>
@@ -182,7 +191,7 @@ export function MapSection({
           </ul>
         </div>
 {/* Map + active card */}
-        <div className={`relative lg:col-span-2 ${heightClass}`}>
+        <div className={`relative lg:col-span-2 ${heightClass} ${dark ? 'map-dark' : ''}`}>
           <MapContainer
             center={[6.5, 18]}
             zoom={3}
@@ -198,7 +207,7 @@ export function MapSection({
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
               url={
                 dark
-                  ? 'https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png'
+                  ? 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
                   : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
               }
               subdomains="abcd"
@@ -232,13 +241,13 @@ export function MapSection({
                     <p className={`text-[10px] font-semibold tracking-[0.2em] uppercase ${dark ? 'text-champagne-300' : 'text-champagne-700'}`}>
                       {active.role}
                     </p>
-                    <h3 className="mt-1 text-lg font-serif text-stone-900">{active.city}, {active.country}</h3>
+                    <h3 className={`mt-1 text-lg font-serif ${dark ? 'text-ivory-50' : 'text-stone-900'}`}>{active.city}, {active.country}</h3>
                   </div>
                   {active.isHQ && (
                     <span className="rounded-full bg-champagne-500 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-900">HQ</span>
                   )}
                 </div>
-                <p className="mt-3 text-sm text-stone-500 flex items-center gap-2">
+                <p className={`mt-3 text-sm flex items-center gap-2 ${dark ? 'text-stone-400' : 'text-stone-500'}`}>
                   <Building2 className="w-4 h-4 shrink-0" aria-hidden="true" />
                   {active.focus}
                 </p>

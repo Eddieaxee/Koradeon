@@ -19,10 +19,10 @@ function Sculpture() {
   // Premium metallic material
   const material = useMemo(() => 
     new THREE.MeshStandardMaterial({
-      color: 0x2A2723,
-      metalness: 0.9,
-      roughness: 0.2,
-      envMapIntensity: 1.5,
+      color: 0xC9B58E,
+      metalness: 0.85,
+      roughness: 0.25,
+      envMapIntensity: 1.8,
     }),
     []
   )

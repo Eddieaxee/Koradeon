@@ -1,10 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Download, FileText, TrendingUp, Shield } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { IMAGES } from '@/constants/assets'
+import { DocumentRequestModal } from '@/features/investors/DocumentRequestModal'
 
 
 
@@ -14,32 +16,40 @@ const resources = [
     title: 'Annual Reports',
     description: 'Comprehensive reports on our financial performance, strategic progress, and corporate governance.',
     meta: 'Inaugural edition — FY2024',
-    action: { label: 'Request a copy', href: 'mailto:investors@koradeon.com?subject=Annual%20Report%20Request' },
+    action: { label: 'Request a copy', type: 'request' },
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
     title: 'Financial Highlights',
     description: 'Key metrics and performance indicators across the Group’s four foundational businesses.',
     meta: 'Updated quarterly',
-    action: { label: 'View the pillars', href: '/businesses' },
+    action: { label: 'View the pillars', type: 'link', href: '/businesses' },
   },
   {
     icon: <Shield className="w-6 h-6" />,
     title: 'Corporate Governance',
     description: 'Our governance framework, board structure, and commitment to transparency.',
     meta: 'Framework published',
-    action: { label: 'Read our standards', href: '#governance' },
+    action: { label: 'Read our standards', type: 'link', href: '#governance' },
   },
   {
     icon: <Download className="w-6 h-6" />,
     title: 'Investor Presentations',
     description: 'Strategic presentations and materials for current and prospective investors.',
     meta: 'Shared on request',
-    action: { label: 'Contact IR', href: 'mailto:investors@koradeon.com?subject=Investor%20Presentation%20Request' },
+    action: { label: 'Request access', type: 'request' },
   },
 ]
 
 export default function InvestorsPage() {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedDocument, setSelectedDocument] = useState('')
+
+  const openDocumentRequest = (docTitle: string) => {
+    setSelectedDocument(docTitle)
+    setModalOpen(true)
+  }
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -161,22 +171,22 @@ export default function InvestorsPage() {
                     <p className="mb-4 text-[11px] uppercase tracking-[0.18em] text-stone-500">
                       {resource.meta}
                     </p>
-                    {resource.action.href.startsWith('/') ? (
+                    {resource.action.type === 'request' ? (
+                      <button
+                        onClick={() => openDocumentRequest(resource.title)}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
+                      >
+                        {resource.action.label}
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                    ) : (
                       <Link
-                        href={resource.action.href}
+                        href={resource.action.href!}
                         className="inline-flex items-center gap-2 text-sm font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
                       >
                         {resource.action.label}
                         <ArrowRight className="h-4 w-4" aria-hidden="true" />
                       </Link>
-                    ) : (
-                      <a
-                        href={resource.action.href}
-                        className="inline-flex items-center gap-2 text-sm font-medium text-stone-900 transition-colors duration-300 hover:text-champagne-700"
-                      >
-                        {resource.action.label}
-                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                      </a>
                     )}
                   </div>
                 </div>
@@ -295,6 +305,13 @@ export default function InvestorsPage() {
           </div>
         </div>
       </section>
+
+      {/* Document Request Modal */}
+      <DocumentRequestModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        documentTitle={selectedDocument}
+      />
     </main>
   )
 }

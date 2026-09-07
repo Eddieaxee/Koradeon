@@ -115,7 +115,7 @@ export function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-stone-200 mb-6">Newsletter</h3>
             <p className="text-sm text-stone-400 mb-5 leading-relaxed">
               Market perspectives, project milestones and Group announcements — monthly.

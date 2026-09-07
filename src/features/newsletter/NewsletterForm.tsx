@@ -67,19 +67,19 @@ export function NewsletterForm({ className = '', variant = 'default' }: Newslett
   const formClass = {
     default: 'flex flex-col sm:flex-row gap-3',
     minimal: 'flex gap-2',
-    footer: 'flex flex-col sm:flex-row gap-3'
+    footer: 'flex gap-3'
   }[variant]
 
   const inputClass = {
     default: 'flex-1 px-6 py-4 bg-white border border-stone-200 rounded-xl focus:outline-none focus:border-champagne-500 transition-colors duration-300 text-stone-900 placeholder-stone-500',
     minimal: 'flex-1 px-4 py-2 bg-stone-100 border border-stone-200 rounded-lg focus:outline-none focus:border-champagne-500 transition-colors duration-300 text-stone-900 placeholder-stone-500',
-    footer: 'flex-1 px-4 py-3 bg-stone-800 border border-stone-700 rounded-lg focus:outline-none focus:border-champagne-500 transition-colors duration-300 text-ivory-50 placeholder-stone-500'
+    footer: 'flex-1 min-w-0 px-4 py-3 bg-stone-800 border border-stone-700 rounded-lg focus:outline-none focus:border-champagne-500 transition-colors duration-300 text-ivory-50 placeholder-stone-500'
   }[variant]
 
   const buttonClass = {
     default: 'px-8 py-4 bg-stone-900 text-ivory-50 font-medium tracking-wide hover:bg-stone-800 transition-colors duration-300 disabled:opacity-50',
     minimal: 'px-4 py-2 bg-champagne-500 text-stone-900 font-medium rounded-lg hover:bg-champagne-600 transition-colors duration-300',
-    footer: 'px-6 py-3 bg-champagne-500 text-stone-900 font-medium rounded-lg hover:bg-champagne-600 transition-colors duration-300'
+    footer: 'shrink-0 px-5 py-3 bg-champagne-500 text-stone-900 font-medium rounded-lg hover:bg-champagne-600 transition-colors duration-300'
   }[variant]
 
   return (

@@ -5,78 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Filter } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { IMAGES } from '@/constants/assets'
-
-
-
-const projects = [
-  {
-    id: 1,
-    title: 'Agricultural Innovation Hub',
-    category: 'Agriculture',
-    business: 'Kavora Farms',
-    href: '/businesses#kavora',
-    status: 'In Development',
-    image: IMAGES.kavora,
-    imageAlt: 'Wheat field at golden hour — the Kavora land bank',
-    description: 'A state-of-the-art agricultural research and innovation center focused on sustainable farming practices and technology integration.'
-  },
-  {
-    id: 2,
-    title: 'Coastal Resort Development',
-    category: 'Hospitality',
-    business: 'Ozura Resorts',
-    href: '/businesses#ozura',
-    status: 'Planning',
-    image: IMAGES.ozuraBeach,
-    imageAlt: 'Turquoise shoreline destined for the first Ozura resort',
-    description: 'A luxury beachfront resort combining world-class hospitality with sustainable design and local cultural experiences.'
-  },
-  {
-    id: 3,
-    title: 'Urban Mixed-Use Development',
-    category: 'Real Estate',
-    business: 'Rumara Estates',
-    href: '/businesses#rumara',
-    status: 'Planning',
-    image: IMAGES.buildingModern,
-    imageAlt: 'Contemporary residential architecture for the Rumara masterplan',
-    description: 'A transformative mixed-use development integrating residential, commercial, and public spaces in a major African city.'
-  },
-  {
-    id: 4,
-    title: 'Transportation Infrastructure',
-    category: 'Infrastructure',
-    business: 'Arcovia Infrastructure',
-    href: '/businesses#arcovia',
-    status: 'Planning',
-    image: IMAGES.arcoviaBridge,
-    imageAlt: 'Bridge engineering — connectivity at Arcovia scale',
-    description: 'A critical transportation infrastructure project designed to improve connectivity and support economic growth.'
-  },
-  {
-    id: 5,
-    title: 'Smart Agriculture Initiative',
-    category: 'Agriculture',
-    business: 'Kavora Farms',
-    href: '/businesses#kavora',
-    status: 'Research',
-    image: IMAGES.farmer,
-    imageAlt: 'Field agronomist reviewing crop data',
-    description: 'Implementing IoT sensors, AI-driven analytics, and automation to revolutionize crop management and yield optimization.'
-  },
-  {
-    id: 6,
-    title: 'Wellness Retreat Concept',
-    category: 'Hospitality',
-    business: 'Ozura Resorts',
-    href: '/businesses#ozura',
-    status: 'Concept',
-    image: IMAGES.luxuryPool,
-    imageAlt: 'Resort pool at dusk — the Ozura wellness concept',
-    description: 'A luxury wellness retreat combining nature, spa treatments, and holistic health programs in a serene African setting.'
-  }
-]
+import { PROJECTS } from '@/constants/projects'
 
 const categories = ['All', 'Agriculture', 'Hospitality', 'Real Estate', 'Infrastructure']
 
@@ -84,8 +13,8 @@ export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState('All')
   const filtered =
     activeCategory === 'All'
-      ? projects
-      : projects.filter((project) => project.category === activeCategory)
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.category === activeCategory)
 
   return (
     <main className="min-h-screen">
@@ -175,16 +104,16 @@ export default function PortfolioPage() {
                   <div className="flex items-center gap-2 mb-3 text-xs">
                     <span className="font-medium tracking-wider uppercase text-champagne-600">{project.category}</span>
                     <span className="h-px w-5 bg-stone-300" aria-hidden="true" />
-                    <span className="text-stone-500">{project.business}</span>
+                    <span className="text-stone-500">{project.businessName}</span>
                   </div>
                   <h3 className="text-xl font-serif text-stone-900 mb-3 group-hover:text-champagne-600 transition-colors duration-300">
                     {project.title}
                   </h3>
                   <p className="text-stone-700 mb-5 line-clamp-2">
-                    {project.description}
+                    {project.shortDescription}
                   </p>
                   <Link
-                    href={project.href}
+                    href={`/portfolio/${project.slug}`}
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-stone-900 hover:text-champagne-600 transition-colors duration-300"
                   >
                     View project
