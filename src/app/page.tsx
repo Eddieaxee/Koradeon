@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, type Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Cpu, LineChart, Sprout, Sun } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -12,18 +11,6 @@ import { BUSINESSES } from '@/constants/brand'
 import { NEWS_ARTICLES } from '@/constants/news'
 import { IMAGES } from '@/constants/assets'
 import { useCountUp } from '@/hooks/useCountUp'
-
-const EASE = [0.16, 1, 0.3, 1] as const
-
-/* Hero content waits for the opening experience, then enters as one composition. */
-const reveal: Variants = {
-  hidden: { opacity: 0, y: 26 },
-  show: (delay: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1, delay, ease: [...EASE] },
-  }),
-}
 
 const INNOVATION_PILLARS = [
   {
@@ -76,20 +63,14 @@ function Stat({
 }
 
 export default function Home() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const loaded = isLoaded ? 'show' : 'hidden'
   const latest = NEWS_ARTICLES.slice(0, 3)
 
   return (
     <>
-      {/* Opening experience — plays once per session, skippable */}
-      <IntroAnimation onComplete={() => setIsLoaded(true)} />
+      {/* Opening experience — quick, skippable, never blocks the page */}
+      <IntroAnimation />
 
-      <main
-        className={`min-h-screen transition-opacity duration-1000 ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <main className="min-h-screen">
         {/* ─────────────────── HERO — the 3D sculpture is the scene ──────── */}
         <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ivory-50 dark:bg-stone-900">
           {/* 3D Sculpture — subtle background presence */}
@@ -101,47 +82,23 @@ export default function Home() {
             <div className="max-w-3xl relative">
               {/* Subtle backdrop for readability over 3D scene */}
               <div className="absolute -inset-8 -z-10 rounded-2xl bg-ivory-50/40 dark:bg-stone-900/40 backdrop-blur-sm" aria-hidden="true" />
-              <motion.p
-                variants={reveal}
-                custom={0.05}
-                initial="hidden"
-                animate={loaded}
-                className="label mb-7 flex items-center gap-4"
-              >
+              <p className="label mb-7 flex items-center gap-4">
                 <span className="h-px w-12 bg-champagne-600" aria-hidden="true" />
                 A diversified holding company · Est. 2024
-              </motion.p>
+              </p>
 
-              <motion.h1
-                variants={reveal}
-                custom={0.15}
-                initial="hidden"
-                animate={loaded}
-                className="font-serif text-[2.6rem] leading-[1.05] tracking-tight text-stone-900 sm:text-6xl lg:text-[4.25rem]"
-              >
+              <h1 className="font-serif text-[2.6rem] leading-[1.05] tracking-tight text-stone-900 sm:text-6xl lg:text-[4.25rem]">
                 Building enduring
                 <br />
                 businesses.
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                variants={reveal}
-                custom={0.28}
-                initial="hidden"
-                animate={loaded}
-                className="body-lg mt-7 max-w-xl text-stone-700"
-              >
+              <p className="body-lg mt-7 max-w-xl text-stone-700">
                 KÓRADEON invests with patience across agriculture, hospitality, real estate and
                 infrastructure — creating institutions designed to serve generations.
-              </motion.p>
+              </p>
 
-              <motion.div
-                variants={reveal}
-                custom={0.42}
-                initial="hidden"
-                animate={loaded}
-                className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
-              >
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <Link href="/businesses" className="btn-primary">
                   The four pillars
                   <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
@@ -149,26 +106,24 @@ export default function Home() {
                 <Link href="/investors" className="btn-secondary">
                   Investor relations
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
 
           {/* Scroll cue */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isLoaded ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 1.2 }}
+          <div
             className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
             aria-hidden="true"
           >
             <motion.div
+              initial={false}
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               className="flex h-10 w-6 items-start justify-center rounded-full border border-stone-400/80 p-1.5"
             >
               <span className="h-2 w-1 rounded-full bg-stone-500" />
             </motion.div>
-          </motion.div>
+          </div>
         </section>
 
         {/* ───────────── WHO WE ARE — editorial image composition ──────────── */}
@@ -178,7 +133,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.8, ease: [...EASE] }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5"
             >
               <span className="label mb-6 block">Who we are</span>
@@ -210,7 +165,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.9, delay: 0.1, ease: [...EASE] }}
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7"
             >
               <div className="relative pb-12 pr-4 sm:pr-10">
